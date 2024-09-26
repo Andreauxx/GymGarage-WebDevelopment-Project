@@ -150,10 +150,13 @@ nav ul li a:hover {
 }
 
 .btn {
+  max-width: 200px;
+  width: 150px;
   background-color: red; 
   padding: 15px 30px;
   text-decoration: none;
   color: white;
+  
   margin: 0 10px;
   border-radius: 5px;
   font-size: 1.2em;
@@ -166,6 +169,21 @@ nav ul li a:hover {
     transform: translateY(-6px);
   }
 
+/* Cart icon styling */
+nav ul li i {
+  margin-right: 5px; /* Adjust spacing between the icon and the text */
+  font-size: 1.2rem;
+}
+
+/* Cart counter styling */
+.cart-counter {
+  background-color: #ff0000; /* Red background for visibility */
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+  margin-left: 5px;
+}
 
 
 
@@ -216,7 +234,8 @@ nav ul li a:hover {
 }
 
 .footer-col .links li a:hover {
-  color: #fff;
+  color: #ec0a0a;
+  transform: scale(1.2);
 }
 
 .footer-col p {
@@ -236,7 +255,7 @@ nav ul li a:hover {
   background: none;
   width: 100%;
   outline: none;
-  border: 1px solid #7489C6;
+  border: 1px solid #ec0303;
   caret-color: #fff;
   color: #fff;
   padding-left: 10px;
@@ -270,8 +289,11 @@ nav ul li a:hover {
 
 .footer-col .icons i {
   color: #afb6c7;
+  font-size: 1.2rem; /* Slightly increase icon size */
+  transition: transform 0.5s ease, color 0.5s ease; /* Smooth transition for both color and rotation */
 }
 
 .footer-col .icons i:hover {
-  color: #fff;
+  color: #f80000;
+  transform: rotate(360deg); /* Use rotate instead of rotate3d for simplicity */
 }
