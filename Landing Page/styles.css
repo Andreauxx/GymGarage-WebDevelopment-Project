@@ -1,0 +1,131 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.michroma-regular {
+  font-family: "Michroma", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+
+.logofont{
+  font-family: Impact;
+  font-size: 2rem;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Promo header styling */
+.promo-header {
+  background-color: #ff0000;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+}
+/* Main header styling */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  width: 100%; /* Ensure header takes full width */
+  position: absolute; /* Make header position absolute within hero-section */
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  color: #fff;
+  z-index: 2; /* Ensure it’s above the gradient */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 100px;
+  margin-right: 10px;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+}
+
+nav ul li a:hover {
+  color: red;
+}
+
+.contact a {
+  margin-left: 15px;
+  color: white;
+  text-decoration: none;
+}
+
+.hero-section {
+  position: relative;
+  background-image: url("Images/BackgroundImage.webp"); /* Ensure path is correct */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  z-index: 1; /* Lower z-index for the section itself */
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7), rgba(24, 21, 21, 0.979)); /* Adjust gradient colors and opacity */
+  z-index: -1; /* Gradient layer just above the background */
+}
+
+.hero-section h1, .hero-section .cta-buttons {
+  position: relative;
+  z-index: 3; /* Content stays above the gradient */
+}
+
+.cta-buttons {
+  margin-top: 20px;
+}
+
+.btn {
+  background-color: transparent; 
+  padding: 15px 30px;
+  text-decoration: none;
+  color: white;
+  margin: 0 10px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #cc0000;
+}
