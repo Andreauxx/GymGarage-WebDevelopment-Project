@@ -9,10 +9,9 @@
           rel="stylesheet"
           href="http://127.0.0.1:5500/Coaches/styles.css?_cacheOverride=1727368959426"
         />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Michroma&amp;display=swap&amp;_cacheOverride=1727368959426"
-          rel="stylesheet"
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css?_cacheOverride=1727368959427"
@@ -36,27 +35,36 @@
             <header>
               <div class="header-content">
                 <div class="logo">
-                  <img src="Images/FinalLogo.png" alt="GymGarage Logo" />
+                  <img src="Images/FinalLogo.png" alt="GymGarage Logo">
                   <span class="logofont">GYMGARAGE</span>
                 </div>
                 <nav class="michroma-regular">
                   <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li><a href="#">Plans</a></li>
-                    <li><a href="#">Coaches</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Cart</a></li>
-                    <li>
-                      <a href="#">
-                        <i class="fas fa-shopping-cart"></i>
-                        Cart <span class="cart-counter">0</span>
-                      </a>
-                    </li>
+                    <div class="nav-center">
+                      <li><a href="#">Home</a></li>
+                      <li><a href="#">Shop</a></li>
+                      <li><a href="#">Plans</a></li>
+                      <li><a href="#">Coaches</a></li>
+                      <li><a href="#">About Us</a></li>
+                    </div>
+                    <div class="nav-right">
+                      <li>
+                        <a href="#">
+                          <i class="fas fa-shopping-cart"></i>
+                          Cart <span class="cart-counter">0</span>
+                        </a>
+                      </li>
+      
+                      <li>
+                        <a href="#">
+                          <i class="fas fa-user-plus"></i> Login/Sign Up
+                        </a>
+                      </li>
+                    </div>
                   </ul>
                 </nav>
               </div>
-              <hr class="custom-line" />
+              <hr class="custom-line">
             </header>
     
             <section class="trainers-section">

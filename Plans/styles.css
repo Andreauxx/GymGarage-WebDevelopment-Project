@@ -25,6 +25,7 @@
   }
   
   
+  
   .logofont{
     font-family: Impact;
     font-size: 2rem;
@@ -32,13 +33,14 @@
   
 
   
+  
   .promo-header {
     background-color: #ff0000;
     color: white;
     text-align: center;
     padding: 10px;
     font-size: 14px;
-  align-items: flex-end;
+    align-items: flex-end;
   }
   
   
@@ -152,9 +154,8 @@ nav ul li i {
 /* End of header Styles */
 
 
+  
 
-  
-  
   
   .hero-section {
     position: relative;
@@ -191,26 +192,139 @@ nav ul li i {
     margin-top: 20px;
   }
   
-  .btn {
-    max-width: 200px;
-    width: 150px;
-    background-color: red; 
-    padding: 15px 30px;
-    text-decoration: none;
-    color: white;
-    
-    margin: 0 10px;
-    border-radius: 5px;
-    font-size: 1.2em;
-    transition: background-color 0.3s ease, transform 0.6s ease; 
-    display: inline-block; 
-  }
-  
-  .btn:hover {
-    background: black;
-      transform: translateY(-6px);
-    }
-  
+
+  .welcome-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    margin-bottom: 50px; /* Create space below welcome section */
+}
+.welcome-text {
+    width: 50%;
+}
+
+.welcome-text h2 {
+    font-size: 48px;
+    color: #fff;
+}
+
+.welcome-text h1 {
+    font-size: 64px;
+    color: red;
+}
+
+.welcome-text p {
+  font-family: 'Michroma';
+  font-size: 18px;
+  color: #fff;
+  text-align: center; /* Center the text */
+  margin: 20px auto; /* Center the paragraph and add some space around it */
+  max-width: 80%; /* Reduce the width to make it less clustered */
+  line-height: 1.6; /
+}
+.images-section {
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+}
+
+.image-container {
+    position: relative;
+    width: 58%;
+}
+
+.image-container img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.angle {
+    position: relative;
+    transform: rotate(-10deg);
+}
+
+.angle img {
+    border: 3px solid red;
+}
+
+
+
+
+.mission {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px;
+  margin-top: 50px; /* Add margin at the top for separation */
+  background-color: #333;
+  color: #fff;
+  gap: 30px;
+}
+
+
+.mission-text {
+  width: 45%; /* Keep text section consistent in size */
+  font-family: 'Michroma', sans-serif;
+}
+
+.mission-text h1 {
+  font-size: 48px; /* Matches the other section's heading size */
+  color: red; /* Consistent red color for headings */
+}
+
+.mission-text p {
+  font-family: 'Michroma';
+  font-size: 18px;
+  color: #fff;
+  text-align: justify;
+  margin: 20px auto;
+  max-width: 100%;
+  line-height: 1.6;
+}
+
+.images-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 50%; /* Image section width aligned with text */
+  gap: 15px; /* Space between the images */
+}
+
+.vm-image-container {
+  width: 45%; /* Similar image size to the welcome section */
+}
+
+.vm-image-container img { 
+  width: 100%;
+  border-radius: 10px; /* Rounded corners for a polished look */
+  border: 3px solid #fff; /* Add white border for better contrast */
+}
+
+.angle {
+  position: relative;
+  transform: rotate(-8deg); /* Maintain consistent angle with the welcome section */
+}
+
+.angle img {
+  border: 3px solid red; /* Red border on angled image for visual consistency */
+}
+
+
+
+.welcome-text, .mission-text {
+  width: 45%; /* Consistent width for both sections */
+}
+
+
+.image-container img, .vm-image-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 3px solid #fff;
+}
+
+
   /* Cart icon styling */
   nav ul li i {
     margin-right: 5px; /* Adjust spacing between the icon and the text */
@@ -346,90 +460,6 @@ nav ul li i {
     }
   }
   
-
-
-
-  .trainers-section {
-    text-align: center;
-    background-color: #1a1a1a;
-    padding: 50px 20px;
-    color: #fff;
-  }
-  
-  .trainers-section h1 {
-    font-size: 2.5rem;
-  }
-  
-  .trainers-section .highlight {
-    color: red;
-    font-weight: bold;
-  }
-  
-  .trainers-section .description {
-    font-size: 1rem;
-    color: #bbb;
-    margin-bottom: 40px;
-  }
-  
-  /* Flexbox container for trainer cards */
-  .trainers-container {
-    display: flex;
-    justify-content: space-around;
-    gap: 30px;
-    flex-wrap: wrap;
-  }
-  
-  /* Trainer card styling */
-  .trainer-card {
-    background-color: #2b2b2b;
-    border: 2px solid transparent;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    width: 250px;
-    transition: border-color 0.3s ease;
-  }
-  
-  .trainer-card:hover {
-    border-color: red;
-  }
-  
-  .trainer-card img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-  
-  .trainer-card h2 {
-    margin: 15px 0;
-    font-size: 1.5rem;
-  }
-  
-  .trainer-card .role {
-    font-size: 0.9rem;
-    color: #999;
-  }
-  
-  .trainer-card .stars {
-    color: gold;
-    font-size: 1.2rem;
-    margin-top: 10px;
-  }
-  
-  /* Responsive for smaller devices */
-  @media (max-width: 768px) {
-    .trainers-container {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-
-
-
-
-
-
 
 
 
