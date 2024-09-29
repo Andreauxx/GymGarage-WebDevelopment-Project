@@ -31,7 +31,10 @@
     font-size: 2rem;
   }
   
-
+  body {
+    font-family: Arial, sans-serif;
+  }
+  
   
   
   .promo-header {
@@ -45,6 +48,8 @@
   
 
 /* Adjust header styles */
+
+
 header {
   width: 100%;
   background-color: transparent;

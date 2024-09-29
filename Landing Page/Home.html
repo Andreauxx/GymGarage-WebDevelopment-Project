@@ -16,7 +16,7 @@
   <!-- Top promotional/offer header -->
   <div class="promo-header">
     <div class="contact">
-      <a href="#">Contact Us</a>
+      <a href="/Contact Us/contact.html">Contact Us</a>
       <a href="#">Call Us!</a>
       <a href="#">Get Quote</a>
     </div>
@@ -29,19 +29,27 @@
       <!-- Move header inside hero-section -->
       <header>
         <div class="header-content">
+      
+          <!-- Navigation Section -->
+          <nav class="michroma-regular">
+            <!-- Top Navigation: Search Bar and Right Elements -->
+            <ul class="nav-top">
+
+                  <!-- Logo Section -->
           <div class="logo">
             <img src="Images/FinalLogo.png" alt="GymGarage Logo">
             <span class="logofont">GYMGARAGE</span>
           </div>
-          <nav class="michroma-regular">
-            <ul>
+      
+              <!-- Search bar integration -->
               <div class="nav-center">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Shop</a></li>
-                <li><a href="#">Plans</a></li>
-                <li><a href="#">Coaches</a></li>
-                <li><a href="#">About Us</a></li>
+                <li class="search-container">
+                  <input type="text" placeholder="Search..." class="search-input">
+                  <button class="search-button"><i class="fas fa-search"></i></button>
+                </li>
               </div>
+        
+              <!-- Right Navigation Items -->
               <div class="nav-right">
                 <li>
                   <a href="#">
@@ -49,7 +57,6 @@
                     Cart <span class="cart-counter">0</span>
                   </a>
                 </li>
-
                 <li>
                   <a href="#">
                     <i class="fas fa-user-plus"></i> Login/Sign Up
@@ -57,10 +64,21 @@
                 </li>
               </div>
             </ul>
+      
+            <!-- Bottom Navigation: Links Section -->
+            <ul class="nav-bottom">
+              <li><a href="/Landing Page/Home.html">Home</a></li>
+              <li><a href="#">Shop</a></li>
+              <li><a href="/Plans/PlansPage.html">Plans</a></li>
+              <li><a href="/Coaches Page/Coaches.html">Coaches</a></li>
+              <li><a href="/About Us/about.html">About Us</a></li>
+            </ul>
           </nav>
         </div>
         <hr class="custom-line">
       </header>
+      
+      
       <h1><span class="highlight">G</span>YM<span class="highlight">G</span>ARAGE</h1>
       <div class="cta-buttons">
         <a href="#" class="btn">Join Us</a>
@@ -132,56 +150,87 @@
 
 
 
-  
   <section class="product-offers">
     <div class="product-header">
         <h2>PAYDAY SALE EXCLUSIVE DEALS</h2>
         <a href="#" class="view-all">See more <i class="fa-solid fa-arrow-right"></i></a>
     </div>
-    <div class="essentials-grid">
-        <div class="category-card">
+    
+    <!-- Arrows for navigation -->
+    <div class="navigation-arrows">
+        <span class="arrow-left" id="prev"><i class="fa-solid fa-arrow-left"></i></span>
+        <span class="arrow-right" id="next"><i class="fa-solid fa-arrow-right"></i></span>
+    </div>
+    
+    <!-- Grid of products in a scrollable container -->
+    <div class="product-essentials-grid" id="scrollable-grid">
+        <div class="product-card">
             <img src="https://m.media-amazon.com/images/I/71oOLhZg37L._AC_SL1500_.jpg" alt="Ellipticals">
-            <div class="overlay">
+            <div class="product-overlay">
                 <h3>Ellipticals</h3>
                 <a href="#" class="shop-now-btn">Shop now</a>
             </div>
         </div>
-        <div class="category-card">
+        <div class="product-card">
             <img src="https://m.media-amazon.com/images/I/61r9ngP1UWL._AC_SL1500_.jpg" alt="Treadmills">
-            <div class="overlay">
+            <div class="product-overlay">
                 <h3>Treadmills</h3>
                 <a href="#" class="shop-now-btn">Shop now</a>
             </div>
         </div>
-        <div class="category-card">
-            <img src="https://img.lazcdn.com/g/p/13dd4c0eedf2d5ba550c0655cf63e7d7.jpg_720x720q80.jpg" alt="Indoor Bikes">
-            <div class="overlay">
+        <div class="product-card">
+            <img src="https://img.lazcdn.com/g/p/13dd4c0eedf2d5ba550c0655cf63e7d7.jpg" alt="Indoor Bikes">
+            <div class="product-overlay">
                 <h3>Indoor Bikes</h3>
                 <a href="#" class="shop-now-btn">Shop now</a>
             </div>
         </div>
-        <div class="category-card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6mdCXkAUZVPVH9xDPq6ZnGGfeengE_x_J5HNRj-XDY0kr8DMbNfj4Kx5f-0cEfi9olY4&usqp=CAU" alt="Rowers">
-            <div class="overlay">
-                <h3>Rowers</h3>
-                <a href="#" class="shop-now-btn">Shop now</a>
-            </div>
-        </div>
-        <div class="category-card">
-            <img src="https://www.afcfitness.com/wp-content/uploads/2019/10/classic-5-strength-exercises.jpg" alt="Strength Training">
-            <div class="overlay">
-                <h3>Strength Training</h3>
-                <a href="#" class="shop-now-btn">Shop now</a>
-            </div>
-        </div>
-        <div class="category-card">
-          <img src="https://www.afcfitness.com/wp-content/uploads/2019/10/classic-5-strength-exercises.jpg" alt="Strength Training">
-          <div class="overlay">
-              <h3>Strength Training</h3>
+
+        <div class="product-card">
+          <img src="https://img.lazcdn.com/g/p/13dd4c0eedf2d5ba550c0655cf63e7d7.jpg" alt="Indoor Bikes">
+          <div class="product-overlay">
+              <h3>Indoor Bikes</h3>
               <a href="#" class="shop-now-btn">Shop now</a>
           </div>
       </div>
+
+      <div class="product-card">
+        <img src="https://img.lazcdn.com/g/p/13dd4c0eedf2d5ba550c0655cf63e7d7.jpg" alt="Indoor Bikes">
+        <div class="product-overlay">
+            <h3>Indoor Bikes</h3>
+            <a href="#" class="shop-now-btn">Shop now</a>
+        </div>
     </div>
+    <div class="product-card">
+      <img src="https://m.media-amazon.com/images/I/71oOLhZg37L._AC_SL1500_.jpg" alt="Ellipticals">
+      <div class="product-overlay">
+          <h3>Ellipticals</h3>
+          <a href="#" class="shop-now-btn">Shop now</a>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="https://m.media-amazon.com/images/I/71oOLhZg37L._AC_SL1500_.jpg" alt="Ellipticals">
+      <div class="product-overlay">
+          <h3>Ellipticals</h3>
+          <a href="#" class="shop-now-btn">Shop now</a>
+      </div>
+  </div>
+
+    <script>
+      document.getElementById('prev').addEventListener('click', function() {
+        document.getElementById('scrollable-grid').scrollBy({
+          left: -200, // Adjust the value as needed
+          behavior: 'smooth'
+        });
+      });
+    
+      document.getElementById('next').addEventListener('click', function() {
+        document.getElementById('scrollable-grid').scrollBy({
+          left: 200, // Adjust the value as needed
+          behavior: 'smooth'
+        });
+      });
+    </script>
 </section>
 
 
@@ -213,6 +262,112 @@
 
 
 
+    <!-- Visit Our Stores Section -->
+    <section class="stores-section">
+      <h2 class="section-title">Visit our stores</h2>
+      <div class="stores-container">
+          <!-- Store List -->
+          <div class="store-list">
+              <div class="store-item">
+                  <h3 class="store-title">GymGarage Fitness & Wellness Matina</h3>
+                  <i class="fas fa-chevron-down toggle-details"></i>
+                  <p class="store-details">
+                    2nd Floor Wellness Zone SM City Clark, M.A. Roxas HW,<br>
+                    Angeles, Pampanga
+                </p>
+                <p class="store-contact">
+                  <a href="tel:+639177094469">0917 709 4469</a><br>
+                  <a href="tel:+63454990688">045 499 0688</a>
+              </p>
+              </div>
+              <div class="store-item">
+                  <h3 class="store-title">GymGarage Fitness & Wellness SM Lanang</h3>
+                  <i class="fas fa-chevron-down toggle-details"></i>
+                  <p class="store-details">
+                      2nd Floor Wellness Zone SM City Clark, M.A. Roxas HW,<br>
+                      Angeles, Pampanga
+                  </p>
+                  <p class="store-contact">
+                      <a href="tel:+639177094469">0917 709 4469</a><br>
+                      <a href="tel:+63454990688">045 499 0688</a>
+                  </p>
+              </div>
+              <div class="store-item">
+                  <h3 class="store-title">Johnson Fitness & Wellness SM North EDSA Annex</h3>
+                  <i class="fas fa-chevron-down toggle-details"></i>
+                  <p class="store-details">
+                    2nd Floor Wellness Zone SM City Clark, M.A. Roxas HW,<br>
+                    Angeles, Pampanga
+                </p>
+                <p class="store-contact">
+                  <a href="tel:+639177094469">0917 709 4469</a><br>
+                  <a href="tel:+63454990688">045 499 0688</a>
+              </p>
+              </div>
+          </div>
+          <!-- Store Image -->
+          <div class="store-image">
+              <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Johnson Fitness Store">
+          </div>
+      </div>
+
+      <script>// Select all store items
+        const storeItems = document.querySelectorAll('.store-item');
+        
+        // Loop through each store item
+        storeItems.forEach(item => {
+          item.addEventListener('click', () => {
+            // Find the details and contact sections within the clicked store item
+            const details = item.querySelector('.store-details');
+            const contact = item.querySelector('.store-contact');
+            const icon = item.querySelector('.toggle-details');
+        
+            // Toggle the visibility of the details and contact sections
+            if (details && contact) {
+              details.style.display = details.style.display === 'block' ? 'none' : 'block';
+              contact.style.display = contact.style.display === 'block' ? 'none' : 'block';
+            }
+        
+            // Toggle the arrow icon direction
+            if (icon) {
+              icon.classList.toggle('fa-chevron-down');
+              icon.classList.toggle('fa-chevron-up');
+            }
+          });
+        });
+        </script>
+  </section>
+
+  <!-- Because We Care Section -->
+  <section class="care-section">
+      <h2 class="section-title">Because we care</h2>
+      <div class="care-cards">
+          <!-- Card 1 -->
+          <div class="care-card" style="background-image: url('https://www.shutterstock.com/image-photo/indoor-personal-cardio-training-gym-600nw-1822207589.jpg');">
+              <div class="card-content">
+                  <h3 class="card-title">Return and Refund</h3>
+                  <p class="card-text">Noticed some defects on your purchase? Get your money back.</p>
+                  <button class="card-button">Learn more</button>
+              </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="care-card" style="background-image: url('https://media.istockphoto.com/id/863848724/photo/personal-trainer.jpg?s=612x612&w=0&k=20&c=T1qFHzhIOfBI8XeZt0K95jBFFd1oMVJiqDqQ-Xuh7us=');">
+              <div class="card-content">
+                  <h3 class="card-title">White Glove Delivery</h3>
+                  <p class="card-text">We ship and assemble your orders nationwide.</p>
+                  <button class="card-button">Learn more</button>
+              </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="care-card" style="background-image: url('https://media.istockphoto.com/id/1437885703/photo/young-female-personal-trainer-showing-exercise-progress-to-male-client-in-the-gym.jpg?s=612x612&w=0&k=20&c=7rlAyDeGYWcbQU-Sgh1H4BHxexJBdDQOheGH91tz-Ak=');">
+              <div class="card-content">
+                  <h3 class="card-title">Product Warranty</h3>
+                  <p class="card-text">Let our professional technicians handle the product maintenance for you.</p>
+                  <button class="card-button">Learn more</button>
+              </div>
+          </div>
+      </div>
+  </section>
 
 
 
