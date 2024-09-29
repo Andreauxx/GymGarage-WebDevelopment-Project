@@ -46,12 +46,9 @@ body {
 }
 
 
-<<<<<<< Updated upstream
-=======
 
 /* Adjust header styles */
 
->>>>>>> Stashed changes
 header {
   width: 100%;
   background-color: transparent;
@@ -70,11 +67,7 @@ header {
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-<<<<<<< Updated upstream
-  padding: 10px;
-=======
   padding: 25px;
->>>>>>> Stashed changes
 }
 
 .logo {
@@ -88,15 +81,6 @@ header {
   margin-right: 10px;
 }
 
-<<<<<<< Updated upstream
-nav ul {
-  display: flex;
-  list-style: none;
-}
-
-nav ul li {
-  margin: 0 15px;
-=======
 /* Navigation styles */
 nav {
   width: 100%;
@@ -120,7 +104,6 @@ nav {
 
 .nav-right a{
   margin: 0 5px;
->>>>>>> Stashed changes
 }
 
 .nav-center {
@@ -177,6 +160,7 @@ nav {
 
 /* General Navigation Styles */
 nav ul li a {
+  font-family: "Michroma", sans-serif;
   text-decoration: none;
   color: white;
   transition: background-color 0.3s ease, transform 0.2s ease; 
@@ -189,6 +173,21 @@ nav ul li a:hover {
   transform: translateY(-3px);
 }
 
+/* Cart icon styling */
+nav ul li i {
+  margin-right: 5px; /* Adjust spacing between the icon and the text */
+  font-size: 1.2rem;
+}
+
+/* Cart counter styling */
+.cart-counter {
+  background-color: #ff0000; /* Red background for visibility */
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+  margin-left: 5px;
+}
 
 /* Line Separator */
 .custom-line {
@@ -199,6 +198,7 @@ nav ul li a:hover {
   box-sizing: border-box; /* Ensures the border is included in the width */
 }
 
+/* End of header Styles */
 
 
 
@@ -238,13 +238,10 @@ nav ul li a:hover {
 }
 
 .btn {
-  max-width: 200px;
-  width: 150px;
   background-color: red; 
   padding: 15px 30px;
   text-decoration: none;
   color: white;
-  
   margin: 0 10px;
   border-radius: 5px;
   font-size: 1.2em;
@@ -257,21 +254,6 @@ nav ul li a:hover {
     transform: translateY(-6px);
   }
 
-/* Cart icon styling */
-nav ul li i {
-  margin-right: 5px; /* Adjust spacing between the icon and the text */
-  font-size: 1.2rem;
-}
-
-/* Cart counter styling */
-.cart-counter {
-  background-color: #ff0000; /* Red background for visibility */
-  color: #fff;
-  font-size: 0.9rem;
-  padding: 2px 6px;
-  border-radius: 50%;
-  margin-left: 5px;
-}
 
 
 
@@ -298,8 +280,6 @@ nav ul li i {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding-right: 70px;
-  padding-left: 70px;
   gap: 3.5rem;
 }
 
@@ -324,8 +304,7 @@ nav ul li i {
 }
 
 .footer-col .links li a:hover {
-  color: #ec0a0a;
-  transform: scale(1.2);
+  color: red;
 }
 
 .footer-col p {
@@ -339,13 +318,15 @@ nav ul li i {
   gap: 5px;
 }
 
+
+
 .footer-col input {
   height: 40px;
   border-radius: 6px;
   background: none;
   width: 100%;
   outline: none;
-  border: 1px solid #ec0303;
+  border: 1px solid red;
   caret-color: #fff;
   color: #fff;
   padding-left: 10px;
@@ -367,7 +348,7 @@ nav ul li i {
 }
 
 .footer-col form button:hover {
-  background: #cecccc;
+  background: #f80000;
 }
 
 .footer-col .icons {
@@ -387,11 +368,9 @@ nav ul li i {
   color: #f80000;
   transform: rotate(360deg); /* Use rotate instead of rotate3d for simplicity */
 }
-<<<<<<< Updated upstream
-=======
-/*End of Footer Styling */
 
 
+/* Image Slider */
 /* Image Slider */
 
 .container {
@@ -733,14 +712,16 @@ nav ul li i {
   right: 30px; /* Adjusted to move it slightly inside */
 }
 
-/* Visit Our Stores Section */
+
+
+
 .section-title {
   color: #d32f2f;
   font-size: 1.5rem;
   margin-bottom: 20px;
 }
 
-
+/* Visit Our Stores Section */
 .stores-section {
   display: flex;
   flex-direction: column;
@@ -798,12 +779,6 @@ nav ul li i {
   width: 100%;
   border-radius: 5px;
 }
-/* End Stores Section */
-
-
-
-
-
 
 /* Because We Care Section */
 .care-section {
@@ -830,13 +805,8 @@ nav ul li i {
   display: flex;
   align-items: flex-end;
   position: relative;
-  transition:  0.6s ease;
 }
 
-
-.care-card:hover{
-  transform: scale(1.05);
-}
 .card-content {
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
@@ -877,5 +847,119 @@ nav ul li i {
       width: 100%;
       margin-bottom: 20px;
   }
+
+
+/*Contact Us*/
+
+
+
+
+}.contact-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  width: 100%;
+  max-width: 1000px;
+  height: 500px;
+  margin: 0 auto;
 }
->>>>>>> Stashed changes
+
+
+.contacth2{
+  font-family: "Michroma", sans-serif;
+  color: red;
+  font-size: 20px;
+  text-shadow: 2px 2px 2px rgba(78, 78, 78, 0.5);
+  margin-bottom: 30px;
+}
+
+
+
+
+
+
+.contact-container {
+  width: auto;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
+}
+
+
+
+
+.contact-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-top, .contact-mid {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.field-pair {
+  display: flex;
+  flex-direction: column;
+  width: 48%; /* Adjust width to fit two pairs in one row */
+}
+
+.contact-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width:500px;
+  height: 300px;
+  align-self: center;
+
+}
+
+label {
+  font-family: "Arial";
+  align-self: start;
+  font-size: 16px;
+  color: white;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+input, textarea {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+input:hover{
+  border-color: red;
+
+}
+
+input::placeholder, textarea::placeholder {
+  text-align: start; 
+}
+
+textarea {
+  height: 100%; /* Ensure full height */
+  resize: none; /* Prevent resizing */
+}
+
+
+
+.sendmsg-btn{
+  width: 200px;
+  background-color: red;
+  align-self: center;
+  height: 30px;
+  color: white;
+  border-radius: 1px;
+  border-color: #555;
+}
+
