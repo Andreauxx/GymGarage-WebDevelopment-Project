@@ -617,27 +617,24 @@ nav ul li i {
   -ms-overflow-style: none; /* Hide scrollbar IE and Edge */
   scrollbar-width: none; /* Hide scrollbar Firefox */
 }
-
 .product-card {
-  max-width: 300px; /* Adjust as needed */
+  width: 300px;
+  height: 350px; /* Increased height to accommodate prices */
   margin-right: 25px;
   position: relative;
   align-items: center;
-  height: 300px;
-  flex: 0 0 auto; /* Prevent shrinking */
-  object-fit: contain;
-}
-
-.product-card:last-child {
-  margin-right: 0; /* Remove margin from the last card */
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 10px; /* Rounded corners */
 }
 
 .product-card img {
   width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
-  border-radius: 10px; /* Add rounded corners */
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .product-overlay {
@@ -649,11 +646,32 @@ nav ul li i {
   color: #fff;
   padding: 10px;
   text-align: center;
-  border-radius: 0 0 10px 10px; /* Match the rounded corners */
+  border-radius: 0 0 10px 10px;
 }
 
 .product-overlay h3 {
   margin: 0;
+  font-size: 18px;
+}
+
+/* Styling for prices */
+.price-section {
+  margin-top: 10px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #f00; /* Red color for the original price */
+}
+
+.discounted-price {
+  font-weight: bold;
+  font-size: 20px;
+  color: #00ff00; /* Green color for the discounted price */
+}
+
+.discount-percentage {
+  color: #ffdd00; /* Yellow for discount percentage */
 }
 
 .shop-now-btn {
@@ -670,6 +688,7 @@ nav ul li i {
 .shop-now-btn:hover {
   background-color: #500505;
 }
+
 
 /* Left and Right Arrows */
 .navigation-arrows {

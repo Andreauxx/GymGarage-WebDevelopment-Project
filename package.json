@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "express": "^4.21.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.11.3"
+  },
+  "name": "gymgarage-webdevelopment-project",
+  "version": "1.0.0",
+  "description": "This is a trio-project in our Web Development Subject",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andreauxx/GymGarage-WebDevelopment-Project.git"
+  },
+  "author": "Jeon Andreaux B. Ampad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Andreauxx/GymGarage-WebDevelopment-Project/issues"
+  },
+  "homepage": "https://github.com/Andreauxx/GymGarage-WebDevelopment-Project#readme"
+}
