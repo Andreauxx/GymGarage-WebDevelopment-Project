@@ -80,3 +80,12 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+
+
+// Node.js Express route to fetch product data
+app.get('/api/product/:id', async (req, res) => {
+  const productId = req.params.id;
+  const product = await Product.findById(productId);  // Assuming MongoDB or any other DB
+  res.json(product);
+});

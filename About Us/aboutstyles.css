@@ -260,7 +260,6 @@ nav ul li i {
   justify-content: space-between;
   align-items: center;
   padding: 50px;
-  margin-top: 50px; /* Add margin at the top for separation */
   background-color: #333;
   color: #fff;
   gap: 30px;
@@ -268,13 +267,15 @@ nav ul li i {
 
 
 .mission-text {
-  width: 45%; /* Keep text section consistent in size */
+  width: 100%; /* Keep text section consistent in size */
   font-family: 'Michroma', sans-serif;
 }
 
 .mission-text h1 {
   font-size: 48px; /* Matches the other section's heading size */
   color: red; /* Consistent red color for headings */
+  align-items: center;
+  justify-content: center;
 }
 
 .mission-text p {

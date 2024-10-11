@@ -11,6 +11,12 @@
   font-style: normal;
 }
 
+.dm-sans{
+  font-family: "DMsans";
+  font-weight: 400;
+  font-style: normal;
+}
+
 h1 {
   font-family: Impact;
   font-size: 200px;
@@ -461,6 +467,7 @@ nav ul li i {
   padding-right: 120px;
   padding-bottom: 20px;
   background-color: #000000;
+
 }
 
 .section-header {
@@ -473,6 +480,8 @@ nav ul li i {
 .section-header h2 {
   color: red;
   font-size: 24px;
+  font-family: 'Franklin Gothic Medium' ;
+  text-shadow: 0 -2px 15px rgba(0, 0, 0, 0.5), 0 1px 0 #474747;
 }
 .view-all {
   text-decoration: none;
@@ -521,6 +530,8 @@ nav ul li i {
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: #e20505;
+  border-width: 3px;
 }
 
 .category-card img {
@@ -528,6 +539,7 @@ nav ul li i {
   height: 100%;
   object-fit: cover;
   transition: transform 0.8s ease;
+  
 }
 
 .category-card:hover img {
@@ -548,12 +560,12 @@ nav ul li i {
   padding: 20px;
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s ease;
 }
 
 .category-card:hover .overlay {
-  opacity: 1;
+  opacity: 0.5;
 }
 
 .overlay h3 {
@@ -589,153 +601,158 @@ nav ul li i {
 
 
 
-/* Product Offers */
-.product-offers {
-  z-index: 1;
-  padding: 20px 120px;
-  background-color: #000;
-  position: relative;
-  overflow: hidden; /* Prevent overflow */
-}
+  /* Product Offers Section */
+  .product-offers {
+    z-index: 1;
+    padding: 20px;
+    padding-left: 150px;
+    padding-right: 150px;
+    background-color: #000;
+    position: relative;
+    overflow: hidden;
+  }
 
-.product-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
+  .product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
 
-.product-header h2 {
-  color: #f80000;
-}
+  .product-header h2 {
+    color: #f80000;
+  }
 
-.product-essentials-grid {
-  display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding-bottom: 20px; /* Add padding to avoid scrollbar overlap */
-  -ms-overflow-style: none; /* Hide scrollbar IE and Edge */
-  scrollbar-width: none; /* Hide scrollbar Firefox */
-}
-.product-card {
-  width: 300px;
-  height: 350px; /* Increased height to accommodate prices */
-  margin-right: 25px;
-  position: relative;
-  align-items: center;
-  flex: 0 0 auto;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 10px; /* Rounded corners */
-}
+  .product-essentials-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 20px;
+  }
 
+  .product-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 400px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* This ensures the save-banner is positioned relative to the card */
+    margin-right: 20px; /* Adjust spacing */
+    overflow: hidden;
+  }
+  
+ /* Image */
 .product-card img {
-  width: 100%;
-  height: 100%;
+  width: 120%;
+  height: 200px;
   object-fit: cover;
-  border-radius: 10px;
-}
-
-.product-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  padding: 10px;
-  text-align: center;
-  border-radius: 0 0 10px 10px;
-}
-
-.product-overlay h3 {
-  margin: 0;
-  font-size: 18px;
-}
-
-/* Styling for prices */
-.price-section {
-  margin-top: 10px;
-}
-
-.original-price {
-  text-decoration: line-through;
-  color: #f00; /* Red color for the original price */
-}
-
-.discounted-price {
-  font-weight: bold;
-  font-size: 20px;
-  color: #00ff00; /* Green color for the discounted price */
-}
-
-.discount-percentage {
-  color: #ffdd00; /* Yellow for discount percentage */
-}
-
-.shop-now-btn {
-  display: inline-block;
-  margin-top: 10px;
-  color: #fff;
-  text-decoration: none;
-  background-color: #f80000;
-  padding: 5px 10px;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
 }
 
-.shop-now-btn:hover {
-  background-color: #500505;
-}
+  .product-card h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  .product-card .price-section {
+    margin-bottom: 10px;
+  }
+
+  .product-card .original-price {
+    text-decoration: line-through;
+    color: grey;
+    font-size: 14px;
+  }
+
+  .product-card .discounted-price {
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .product-card .shop-now-btn {
+    background-color: #f80000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .product-card .shop-now-btn:hover {
+    background-color: darkred;
+    transform: translateY(-3px);
+  }
 
 
-/* Left and Right Arrows */
-.navigation-arrows {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  transform: translateY(-50%);
-  z-index: 10; 
-  pointer-events: none;
-}
 
-.arrow-left, .arrow-right {
-  background-color: rgba(255, 255, 255, 0.6); /* Changed to white for better visibility */
-  padding: 20px;
-  color: black; /* Adjusted text color for contrast */
-  cursor: pointer;
-  border-radius: 50%;
-  transition: background-color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  pointer-events: auto; /* Enable clicks on arrows */
-}
+ 
+  .product-card .save-banner {
+    position: absolute; 
+    top: 10px;
+    left: 10px;
+    background-color: red; /* Ensure visibility */
+    color: white;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: bold;
+    z-index: 10; /* Ensure it's on top of other content */
+    border-radius: 5px; /* Make it look cleaner */
+  }
+  
 
-.arrow-left:hover, .arrow-right:hover {
-  background-color: rgba(255, 255, 255, 0.8); /* Adjust hover effect for better contrast */
-}
+  /* Left and Right Arrows */
+  .navigation-arrows {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
 
-.arrow-left {
-  left: 30px; /* Adjusted to move it slightly inside */
-}
+  .arrow-left, .arrow-right {
+    background-color: rgba(216, 6, 6, 0.6);
+    padding: 20px;
+    color: rgb(175, 175, 175);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+  }
 
-.arrow-right {
-  right: 30px; /* Adjusted to move it slightly inside */
-}
+  .arrow-left:hover, .arrow-right:hover {
+    background-color: rgba(161, 93, 93, 0.8);
+  }
+
+  .arrow-left {
+    left: 100px;
+  }
+
+  .arrow-right {
+    right: 100px;
+  }
+
 
 /* Visit Our Stores Section */
 .section-title {
   color: #d32f2f;
   font-size: 1.5rem;
   margin-bottom: 20px;
+  padding-left: 150px;
+  padding-right: 150px;
 }
 
 
@@ -876,3 +893,7 @@ nav ul li i {
       margin-bottom: 20px;
   }
 }
+
+
+
+
