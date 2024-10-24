@@ -6,60 +6,60 @@ const pagesRouter = express.Router();
 
 pagesRouter.use(express.json())
 
-pagesRouter.use(express.static(path.join(__dirname, '../styles')))
+pagesRouter.use(express.static(path.join(__dirname, '../frontend/styles')))
 
 // RENDERING HTML PAGES
 pagesRouter.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, '../Landing Page/Home.html'))
+    res.sendFile(path.join(__dirname, '../frontend/Home.html'))
 })
 
 pagesRouter.get("/coaches", (req, res) => {
-    res.sendFile(path.join(__dirname, '../Coaches Page/Coaches.html'))
+    res.sendFile(path.join(__dirname, '../frontend/Coaches.html'))
 })
 
 pagesRouter.get("/shop", (req, res) => {
-    res.sendFile(path.join(__dirname, '../Shop/shop.html'))
+    res.sendFile(path.join(__dirname, '../frontend/shop.html'))
 })
 
 pagesRouter.get("/plans", (req, res) => {
-    res.sendFile(path.join(__dirname, '../Plans/PlansPage.html'))
+    res.sendFile(path.join(__dirname, '../frontend/PlansPage.html'))
 })
 
 pagesRouter.get("/about", (req, res) => {
-    res.sendFile(path.join(__dirname, '../About Us/about.html'))
+    res.sendFile(path.join(__dirname, '../frontend/about.html'))
 })
 
 pagesRouter.get("/checkout", (req, res) => {
-    res.sendFile(path.join(__dirname, '../Checkout/checkout.html'))
+    res.sendFile(path.join(__dirname, '../frontend/checkout.html'))
 })
 
 pagesRouter.get("/contact", (req, res) => {
-    res.sendFile(path.join(__dirname, '../Contact Us/contact.html'))
+    res.sendFile(path.join(__dirname, '../frontend/contact.html'))
 })
 
 pagesRouter.get("/login", (req, res) => {
-    res.sendFile(path.join(__dirname, '../Login/login.html'))
+    res.sendFile(path.join(__dirname, '../frontend/login.html'))
 })
 
 pagesRouter.get("/cancel", (req, res) => {
-    res.sendFile(path.join(__dirname, '../Legal/cancellation.html'))
+    res.sendFile(path.join(__dirname, '../frontend/cancellation.html'))
 })
 
 pagesRouter.get("/faq", (req, res) => {
-    res.sendFile(path.join(__dirname, '../Legal/FAQ.html'))
+    res.sendFile(path.join(__dirname, '../frontend/FAQ.html'))
 })
 
 pagesRouter.get("/refund", (req, res) => {
-    res.sendFile(path.join(__dirname, '../Legal/refund.html'))
+    res.sendFile(path.join(__dirname, '../frontend/refund.html'))
 })
 
 pagesRouter.get("/terms", (req, res) => {
-    res.sendFile(path.join(__dirname, '../Legal/terms.html'))
+    res.sendFile(path.join(__dirname, '../frontend/terms.html'))
 })
 
 //FOR PRODUCTS
 pagesRouter.get("/products", (req, res) => {
-    res.sendFile(path.join(__dirname, '../ProductPage/product.html'))
+    res.sendFile(path.join(__dirname, '../frontend/product.html'))
 })
 
 export default pagesRouter
