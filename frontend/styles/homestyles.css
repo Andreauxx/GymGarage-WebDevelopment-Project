@@ -514,6 +514,7 @@ nav ul li i {
 
 /* Adjust grid to create dynamic layout */
 .essentials-grid {
+  background-color: #222;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
@@ -897,3 +898,106 @@ nav ul li i {
 
 
 
+/* Modal styling */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000; /* Sits on top of other elements */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+}
+
+.modal-content {
+  background-color: white;
+  margin: 15% auto; /* Vertically center the modal */
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px; /* Width of the modal */
+  text-align: center;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: #aaa;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+}
+
+
+
+/* Animations for Hero Section */
+.hero-section h1 {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.cta-buttons .btn {
+  animation: slideIn 1.5s ease-in-out 0.5s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+      transform: translateY(-30px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+      opacity: 0;
+      transform: translateX(100px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateX(0);
+  }
+}
+
+/* Animations for Category Cards */
+.category-card:hover img {
+  transform: scale(1.2);
+  transition: transform 0.5s ease-in-out;
+}
+
+.overlay {
+  transition: background-color 0.5s ease-in-out;
+}
+
+.category-card:hover .overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Product Card Hover Animation */
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Animations for Image Slider */
+.slider img {
+  transition: transform 0.8s ease;
+}
+
+.slider:hover img {
+  transform: scale(1.05);
+}
+
+/* Smooth Scroll for Anchor Links */
+html {
+  scroll-behavior: smooth;
+}

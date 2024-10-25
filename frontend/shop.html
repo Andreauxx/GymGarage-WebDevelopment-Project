@@ -106,10 +106,80 @@
             <span class="original-price">₱98,995.00</span>
             <span class="discounted-price">₱69,296.50</span>
           </div>
-          <button class="btn">Add to Cart</button>
+          <button class="btn add-to-cart">Add to Cart</button>
         </div>
       </div>
     </main>
+
+
+<!-- Floating Login Modal -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Login to Your Account</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+  </div>
+</div>
+
+
+
+
+<script>
+// Get the modal
+var modal = document.getElementById("loginModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// Get the Add to Cart button and other related buttons that need login
+var addToCartButtons = document.querySelectorAll(".add-to-cart");
+
+// When the user clicks on a button (Add to Cart, Checkout, etc.)
+addToCartButtons.forEach(button => {
+  button.addEventListener("click", function (event) {
+    event.preventDefault();
+    console.log("Add to Cart clicked, opening modal");
+    modal.style.display = "block";
+  });
+});
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  console.log("Closing modal");
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    console.log("Click outside modal, closing it");
+    modal.style.display = "none";
+  }
+}
+
+// Optionally handle form submission (you can integrate real login logic here)
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  // Here, you can add your login validation logic
+  alert("Logged in!");
+  modal.style.display = "none"; // Close modal upon login
+});
+
+</script>
+
+
+
+
 
     <footer>
       <section class="footer">
@@ -161,44 +231,55 @@
       </section>
     </footer>
 
-    <!-- Script to Handle Search and Filters -->
-    <script>
-      document.getElementById("price-range").addEventListener("input", updatePriceLabel);
-document.getElementById("apply-filters").addEventListener("click", fetchProducts);
 
-function updatePriceLabel() {
-  const price = document.getElementById("price-range").value;
-  document.getElementById("price-label").innerText = `₱0 - ₱${price}`;
-}
+<!-- Shop Page Script -->
+<script>
+  document.getElementById("price-range").addEventListener("input", updatePriceLabel);
+  document.getElementById("apply-filters").addEventListener("click", fetchProducts);
 
-async function fetchProducts() {
-  const searchQuery = document.getElementById("search-input").value.trim();
-  const category = document.getElementById("category").value;
-  const price = document.getElementById("price-range").value;
-  const availability = document.getElementById("availability").value;
-
-  let query = `/api/products?`; // Adjust based on your API
-  if (searchQuery) query += `search=${searchQuery}&`;
-  if (category && category !== "all") query += `category=${category}&`;
-  if (price) query += `price=${price}&`;
-  if (availability && availability !== "all") query += `availability=${availability}`;
-
-  try {
-    const response = await fetch(query);
-    const products = await response.json();
-    displayProducts(products);
-  } catch (error) {
-    console.error("Error fetching products:", error);
+  function updatePriceLabel() {
+    const price = document.getElementById("price-range").value;
+    document.getElementById("price-label").innerText = `₱0 - ₱${price}`;
   }
+
+
+
+  async function fetchProducts() {
+    const searchQuery = document.getElementById("search-input").value.trim();
+    const category = document.getElementById("category").value;
+    const price = document.getElementById("price-range").value;
+    const availability = document.getElementById("availability").value;
+
+    let query = `/api/products?`; // Adjust based on your API
+    if (searchQuery) query += `search=${searchQuery}&`;
+    if (category && category !== "all") query += `category=${category}&`;
+    if (price) query += `price=${price}&`;
+    if (availability && availability !== "all") query += `availability=${availability}`;
+
+    try {
+        const response = await fetch(query);
+        if (!response.ok) {
+            throw new Error('Failed to fetch products');
+        }
+        const products = await response.json();
+        console.log("Fetched Products:", products); // Log the fetched products
+        displayProducts(products);
+    } catch (error) {
+        console.error("Error fetching products:", error);
+    }
 }
+
+
 
 function displayProducts(products) {
   const productGrid = document.getElementById("product-grid");
   productGrid.innerHTML = ""; // Clear the grid
 
   if (products.length === 0) {
+    console.log("No products found");
     productGrid.innerHTML = "<p>No products found.</p>";
   } else {
+    console.log("Displaying Products:", products); // Log products to verify if they're passed correctly
     products.forEach((product) => {
       const originalPrice = product.original_price
         ? `₱${product.original_price}`
@@ -210,24 +291,29 @@ function displayProducts(products) {
         ? `<span class="original-price">${originalPrice}</span> <span class="discounted-price">${discountedPrice}</span>`
         : `<span class="price">₱${product.original_price}</span>`;
 
-        const productCard = `
-  <div class="product-card">
-    <!-- Save Banner should be inside the product-card -->
-    ${product.discounted_price ? `<div class="save-banner">Save ₱${(product.original_price - product.discounted_price).toFixed(2)}</div>` : ''}
-    
-    <img src="${product.image_url}" alt="${product.name}">
-    <h2>${product.name}</h2>
-    <div class="price-section">${priceDisplay}</div>
-    <button class="btn">Add to Cart</button>
-  </div>
-`;
+      const productCard = `
+        <div class="product-card">
+          ${product.discounted_price ? `<div class="save-banner">Save ₱${(product.original_price - product.discounted_price).toFixed(2)}</div>` : ''}
+          <img src="${product.image_url}" alt="${product.name}">
+          <h2>${product.name}</h2>
+          <div class="price-section">${priceDisplay}</div>
+          <button class="btn">Add to Cart</button>
+        </div>
+      `;
       productGrid.innerHTML += productCard;
     });
   }
 }
 
-document.addEventListener("DOMContentLoaded", fetchProducts);
 
-    </script>
+  document.addEventListener("DOMContentLoaded", fetchProducts);
+</script>
+
+
+
+
+
+
+
   </body>
 </html>

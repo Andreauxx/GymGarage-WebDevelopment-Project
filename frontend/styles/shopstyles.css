@@ -337,3 +337,41 @@ body {
   color: #f80000;
   transform: rotate(360deg); /* Use rotate instead of rotate3d for simplicity */
 }
+
+
+
+
+/* Modal styling */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000; /* Sits on top of other elements */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+}
+
+.modal-content {
+  background-color: white;
+  margin: 15% auto; /* Vertically center the modal */
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px; /* Width of the modal */
+  text-align: center;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: #aaa;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+}
