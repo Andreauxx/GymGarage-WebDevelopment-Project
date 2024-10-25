@@ -12,7 +12,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <link rel="stylesheet" href="adminstyles.css" />
+    <link rel="stylesheet" href="clientprofile.css" />
   </head>
   <body>
     <!-- Header Section -->
@@ -40,20 +40,23 @@
     </nav>
 
     <!-- Login Form Section -->
-    <main class="form-container">
-      <form class="auth-form">
-        <h2>Login</h2>
-        <div class="input-container">
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="Your Email" required />
-  
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Your Password" required />
-  
-          <button type="submit" class="btn">Login</button>
+    <main class="admin-settings">
+      <div id="left-block" class="content-block">
+        <div id="account-info">
+            <img height="75" width="75" id="pfp" src="Images/pfp.png">
+            <h4>Username</h4>
         </div>
-        <p>Don’t have an account? <a href="/Login/signup.html">Sign up here</a></p>
-      </form>
+        <div id="account-settings">
+            <a href="/Settings/Client/profile.html">Profile</a>
+            <a href="/Settings/Client/banks.html">Banks & Cards</a>
+            <a href="/Settings/Client/addresses.html">Addresses</a>
+            <a href="/Settings/Client/password.html">Change Password</a> 
+            <a href="#">Privacy</a>
+        </div>
+      </div>
+      <div id="right-block" class="content-block">
+        privacy
+      </div>
     </main>
 
     <!-- Footer Section -->
