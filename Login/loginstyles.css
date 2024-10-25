@@ -69,15 +69,19 @@
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 900px;
+    height: 480px;
+    display: flex;
+    flex-flow: column;
   }
   
   .auth-form h2 {
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 50px 0px;
     text-align: center;
     font-family: Impact;
     font-size: 36px;
     color: red;
-    margin-bottom: 20px;
   }
   
   .auth-form label {
@@ -120,6 +124,16 @@
   
   .auth-form a:hover {
     text-decoration: underline;
+  }
+
+  .input-container {
+    display: flex;
+    flex-flow: column;
+    flex-grow: 1;
+  }
+
+  .input-container input {
+    margin-bottom: 30px;
   }
   
   /* Footer */
