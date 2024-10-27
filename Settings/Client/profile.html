@@ -55,7 +55,30 @@
         </div>
       </div>
       <div id="right-block" class="content-block">
-        right
+        <div id="profile-settings">
+          <div class="labels">
+            <label for="username">Username</label>
+            <label for="name">Name</label>
+            <label for="email">Email</label>
+            <label for="number">Phone Number</label>
+            <label for="gender">Gender</label>
+          </div>
+          <div class="inputs">
+            <input type="text" id="username" placeholder="Username">
+            <input type="text" id="name" placeholder="John Doe">
+            <input type="email" id="email" placeholder="unknownperson@test.com">
+            <input type="number" id="number" placeholder="09278349323">
+            <div class="gender_radio">
+              <input type="radio" id="male" name="gender" >
+              <label for="male">Male</label>
+              <input type="radio" id="female" name="gender">
+              <label for="female">Female</label>
+              <input type="radio" id="other" name="gender">
+              <label for="other">Other</label>
+            </div>
+          </div>
+          <button id="submit_changes">Save Changes</button> 
+        </div>
       </div>
     </main>
 

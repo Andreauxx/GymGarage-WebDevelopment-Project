@@ -127,55 +127,15 @@ body {
     justify-content: center;
 }
 
-.admin-settings #right-block #profile-settings {
-    margin: 20px;
-    display: flex;
-    flex-flow: row;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    width: 80%;
+.admin-settings #right-block #settings{
+    margin: 25px;
+    min-width: 80%;
 }
 
-.admin-settings #right-block #profile-settings .labels{
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    text-align: right;
-    gap: 50px;
-}
-
-.admin-settings #right-block #profile-settings .inputs{
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    gap: 45px;
-    margin-right: 280px;
-}
-
-.admin-settings #right-block #profile-settings .inputs input{
-    padding: 4px;
-}
-
-.admin-settings #right-block #profile-settings .inputs #number::-webkit-inner-spin-button,
-.admin-settings #right-block #profile-settings .inputs #number::-webkit-outer-spin-button{
-    -webkit-appearance: none;
-}
-
-.admin-settings #right-block #profile-settings .inputs .gender_radio label{
-    margin-right: 20px;
-}
-
-.admin-settings #right-block #submit_changes {
-    padding: 5px;
-    border-radius: 5px;
-    background-color: #fff;
-    border: 1px black solid;
-}
-
-.admin-settings #right-block #submit_changes:hover {
-    background-color: #adadad;
-    cursor: pointer;
+.admin-settings #right-block h1 {
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
 }
 
 /* Footer */
