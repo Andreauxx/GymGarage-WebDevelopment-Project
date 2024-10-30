@@ -12,7 +12,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <link rel="stylesheet" href="loginstyles.css" />
+    <link rel="stylesheet" href="signup.css" />
   </head>
   <body>
     <!-- Header Section -->
@@ -42,18 +42,32 @@
     <!-- Login Form Section -->
     <main class="form-container">
       <form class="auth-form">
-        <h2>Login</h2>
+        <h2>Sign Up</h2>
         <div class="input-container">
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="Your Email" required />
+            <label for="name">First Name</label>
+            <input type="text" id="f_name" placeholder="Your First Name" required />
+
+            <label for="name">Last Name</label>
+            <input type="text" id="l_name" placeholder="Your Last Name" required />
+
+            <label for="address">Address</label>
+            <input type="text" id="address" placeholder="House/Bldg Number, Street, District, City" required />
+
+            <label for="Number">Phone Number</label>
+            <input type="number" id="number" placeholder="Phone Number" required />
+
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Your Email" required />
   
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Your Password" required />
-  
-          <button type="submit" class="btn">Login</button>
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Your Password" required />
+
+            <label for="confirm_password">Password</label>
+            <input type="password" id="confirm_password" placeholder="Confirm Password" required />
+    
+            <button type="submit" class="register">Register</button>
         </div>
-        <p>Don’t have an account? <a href="/signup">Sign up here</a></p>
-      </form>
+      </form>   
     </main>
 
     <!-- Footer Section -->

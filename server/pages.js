@@ -42,6 +42,10 @@ pagesRouter.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/login.html'));
 });
 
+pagesRouter.get("/signup", (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/signup.html'));
+});
+
 pagesRouter.get("/cancel", (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/cancellation.html'));
 });

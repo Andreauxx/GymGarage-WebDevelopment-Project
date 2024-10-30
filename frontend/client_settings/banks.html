@@ -12,13 +12,13 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <link rel="stylesheet" href="loginstyles.css" />
+    <link rel="stylesheet" href="banks.css" />
   </head>
   <body>
     <!-- Header Section -->
     <header class="promo-header">
       <div class="contact">
-        <a href="/contact">Contact Us</a>
+        <a href="/contact.html">Contact Us</a>
         <a href="#">Call Us!</a>
         <a href="#">Get Quote</a>
       </div>
@@ -31,29 +31,34 @@
         <span class="logofont">GYMGARAGE</span>
       </div>
       <ul>
-        <li><a href="/home">Home</a></li>
-        <li><a href="/shop">Shop</a></li>
-        <li><a href="/plans">Plans</a></li>
-        <li><a href="/coaches">Coaches</a></li>
-        <li><a href="/about">About Us</a></li>
+        <li><a href="/Landing Page/Home.html">Home</a></li>
+        <li><a href="/Shop/shop.html">Shop</a></li>
+        <li><a href="/Plans/PlansPage.html">Plans</a></li>
+        <li><a href="/Coaches Page/Coaches.html">Coaches</a></li>
+        <li><a href="/About Us/about.html">About Us</a></li>
       </ul>
     </nav>
 
     <!-- Login Form Section -->
-    <main class="form-container">
-      <form class="auth-form">
-        <h2>Login</h2>
-        <div class="input-container">
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="Your Email" required />
-  
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Your Password" required />
-  
-          <button type="submit" class="btn">Login</button>
+    <main class="admin-settings">
+      <div id="left-block" class="content-block">
+        <div id="account-info">
+            <img height="75" width="75" id="pfp" src="Images/pfp.png">
+            <h4>Username</h4>
         </div>
-        <p>Don’t have an account? <a href="/signup">Sign up here</a></p>
-      </form>
+        <div id="account-settings">
+            <a href="/Settings/Client/profile.html">Profile</a>
+            <a href="#">Banks & Cards</a>
+            <a href="/Settings/Client/addresses.html">Addresses</a>
+            <a href="/Settings/Client/password.html">Change Password</a> 
+            <a href="/Settings/Client/privacy.html">Privacy</a>
+        </div>
+      </div>
+      <div id="right-block" class="content-block">
+        <div id="settings">
+          <h1>My Banks & Credit Cards</h1>
+        </div>
+      </div>
     </main>
 
     <!-- Footer Section -->
@@ -63,8 +68,8 @@
           <div class="footer-col">
             <h4>Company Info</h4>
             <ul class="links">
-              <li><a href="/about">About Us</a></li>
-              <li><a href="/contact">Contact Us</a></li>
+              <li><a href="/About Us/about.html">About Us</a></li>
+              <li><a href="/Contact Us/contact.html">Contact Us</a></li>
               <li><a href="#">Careers</a></li>
               <li><a href="#">FAQs</a></li>
             </ul>
@@ -81,9 +86,9 @@
           <div class="footer-col">
             <h4>Legal</h4>
             <ul class="links">
-              <li><a href="/terms">Terms of Service</a></li>
-            <li><a href="/cancel">Privacy Policy</a></li>
-            <li><a href="/refund">Refund Policy</a></li>
+              <li><a href="/Legal/terms.html">Terms of Service</a></li>
+            <li><a href="/Legal/cancellation.html">Privacy Policy</a></li>
+            <li><a href="/Legal/refund.html">Refund Policy</a></li>
             </ul>
           </div>
           <div class="footer-col">
