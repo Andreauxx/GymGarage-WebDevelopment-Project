@@ -143,40 +143,118 @@
     margin-bottom: 30px;
   }
   
-  /* Footer */
-  .footer {
-    background-color: black;
-    color: white;
-    padding: 50px 20px;
-    display: flex;
-    justify-content: space-between;
-  }
   
-  .footer-col h4 {
-    color: white;
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
   
-  .footer-col ul {
-    list-style: none;
-  }
-  
-  .footer-col ul li a {
-    text-decoration: none;
-    color: #bfbfbf;
-  }
-  
-  .footer-col ul li a:hover {
-    color: red;
-  }
-  
-  .footer .icons i {
-    color: #afb6c7;
-    font-size: 24px;
-    margin-right: 20px;
-  }
-  
-  .footer .icons i:hover {
-    color: #f80000;
-  }
+
+/* Importing Google font - Open Sans */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.footer {
+  position: relative; 
+  max-width: auto;
+  width: 100%;
+  margin: auto; 
+  background: #000000;
+  padding: 50px 50px ; 
+}
+
+.footer .footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-right: 70px;
+  padding-left: 70px;
+  gap: 3.5rem;
+}
+
+.footer-row .footer-col h4 {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.footer-col .links {
+  margin-top: 20px;
+}
+
+.footer-col .links li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.footer-col .links li a {
+  text-decoration: none;
+  color: #bfbfbf;
+}
+
+.footer-col .links li a:hover {
+  color: red;
+}
+
+.footer-col p {
+  margin: 20px 0;
+  color: #bfbfbf;
+  max-width: 300px;
+}
+
+.footer-col form {
+  display: flex;
+  gap: 5px;
+}
+
+.footer-col input {
+  height: 40px;
+  border-radius: 6px;
+  background: none;
+  width: 100%;
+  outline: none;
+  border: 1px solid red;
+  caret-color: #fff;
+  color: #fff;
+  padding-left: 10px;
+}
+
+.footer-col input::placeholder {
+  color: #ccc;
+}
+
+.footer-col form button {
+  background: #fff;
+  outline: none;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.footer-col form button:hover {
+  background: #f80000;
+}
+
+.footer-col .icons {
+  display: flex;
+  margin-top: 30px;
+  gap: 30px;
+  cursor: pointer;
+}
+
+.footer-col .icons i {
+  color: #afb6c7;
+  font-size: 1.2rem; /* Slightly increase icon size */
+  transition: transform 0.5s ease, color 0.5s ease; /* Smooth transition for both color and rotation */
+}
+
+.footer-col .icons i:hover {
+  color: #f80000;
+  transform: rotate(360deg); /* Use rotate instead of rotate3d for simplicity */
+}
+/*End of Footer Styling */

@@ -37,8 +37,10 @@ h1 {
   font-size: 2rem;
 }
 
-body {
-  font-family: Arial, sans-serif;
+body, html {
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  margin: 0;
+  padding: 0;
 }
 
 
@@ -378,10 +380,10 @@ nav ul li i {
 
 
 /* Image Slider */
-
-.container {
-  padding: 0; /* Remove padding to make slider full-width */
-  margin: 0;
+/* Main wrapper styling */
+.container, /* Replace .container with your main wrapper class name */
+.content { /* Adjust for other main content areas */
+    box-sizing: border-box;
 }
 
 .slider-wrapper {

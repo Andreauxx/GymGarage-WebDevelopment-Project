@@ -62,4 +62,71 @@ export async function getProducts({ search, category, price, availability }) {
   return data;
 }
 
+
+
+// Example database insert function for adding product and images
+// database.js
+export async function saveProductToDatabase({ name, original_price, discounted_price, category, stock, mainImageUrl, additionalImages }) {
+  const { data: product, error: productError } = await supabase
+      .from('products')
+      .insert([{ name, original_price, discounted_price, category, stock, image_url: mainImageUrl }])
+      .select();
+
+  if (productError) {
+      console.error("Error saving product to database:", productError);
+      throw productError;
+  }
+
+  const productId = product[0].id;
+  if (additionalImages.length > 0) {
+      const imageRecords = additionalImages.map(url => ({ product_id: productId, image_url: url }));
+      const { error: imageError } = await supabase.from('product_images').insert(imageRecords);
+      if (imageError) {
+          console.error("Error saving additional images:", imageError);
+          throw imageError;
+      }
+  }
+
+  return product[0];
+}
+
+
+
+export async function updateProductInDatabase(id, { name, original_price, discounted_price, category, stock, mainImageUrl, additionalImages }) {
+  const { data: product, error: productError } = await supabase
+    .from('products')
+    .update({ 
+      name, 
+      original_price, 
+      discounted_price, 
+      category, 
+      stock, 
+      image_url: mainImageUrl 
+    })
+    .eq('id', id)
+    .select();
+
+  if (productError) {
+    console.error("Error updating product in database:", productError);
+    throw productError;
+  }
+
+  // Handle additional images (optional)
+  if (additionalImages.length > 0) {
+    // First, remove existing additional images
+    await supabase.from('product_images').delete().eq('product_id', id);
+    
+    const imageRecords = additionalImages.map(url => ({ product_id: id, image_url: url }));
+    const { error: imageError } = await supabase.from('product_images').insert(imageRecords);
+    
+    if (imageError) {
+      console.error("Error saving additional images:", imageError);
+      throw imageError;
+    }
+  }
+
+  return product[0];
+}
+
+
 export default supabase;
