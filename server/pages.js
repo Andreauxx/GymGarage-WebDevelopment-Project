@@ -26,6 +26,12 @@ pagesRouter.get("/plans", (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/PlansPage.html'));
 });
 
+
+pagesRouter.get("/cart", (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/cart.html'));
+});
+
+
 pagesRouter.get("/about", (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/about.html'));
 });
