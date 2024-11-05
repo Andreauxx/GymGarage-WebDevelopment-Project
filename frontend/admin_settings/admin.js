@@ -1,6 +1,6 @@
 // admin.js
 
-import { loadProducts, showAddProductForm } from '/admin_settings/products.js';
+import { loadProducts, showAddProductForm, initProductEvents } from '/admin_settings/products.js';
 
 const routes = {
     "/admin/dashboard": "/admin_settings/dashboard.html",
@@ -15,28 +15,22 @@ const routes = {
 async function handleLocation() {
     const path = window.location.pathname;
     const route = routes[path] || routes["/admin/404"];
-    console.log("Navigating to:", route); // Debugging: Log the route being navigated to
+    console.log("Navigating to:", route);
     
     try {
         const html = await fetch(route).then((response) => response.text());
         document.getElementById("app").innerHTML = html;
 
-        // Call loadProducts if products.html is loaded
+        // Initialize product-related events when on the products page
         if (path === "/admin/products") {
-            loadProducts();  // Load products into the table
-
-            // Set up "Add Product" button event listener
-            const addButton = document.querySelector(".add-product-btn");
-            if (addButton) {
-                addButton.addEventListener("click", showAddProductForm);
-            }
+            initProductEvents(); // Set up events (including loadProducts and form actions)
         }
     } catch (error) {
         console.error("Error loading page:", error);
     }
 }
 
-// Setup navigation for single-page application behavior
+// Setup SPA navigation
 window.onpopstate = handleLocation;
 window.route = (event) => {
     event.preventDefault();

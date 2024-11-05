@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Products</title>
+    <link rel="stylesheet" href="cartstyle.css">
+</head>
+<body>
 <div class="section-container">
     <h2>Products</h2>
     <button class="add-product-btn">Add Product</button>
@@ -5,7 +14,7 @@
     <!-- Product Form -->
     <div id="product-form-container" class="full-width-form" style="display: none;">
         <h3 id="form-title">Add Product</h3>
-        <form id="product-form">
+        <form id="product-form" enctype="multipart/form-data">
             <div class="form-row">
                 <div class="form-group">
                     <label for="product-name">Product Name</label>
@@ -24,6 +33,12 @@
                 <div class="form-group">
                     <label for="product-category">Category</label>
                     <input type="text" id="product-category" placeholder="Category">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="product-description">Description</label>
+                    <textarea id="product-description" placeholder="Product Description"></textarea>
                 </div>
             </div>
             <div class="form-row">
@@ -48,7 +63,7 @@
             </div>
             <div class="form-actions">
                 <button type="submit" class="action-btn save">Save</button>
-                <button type="button" class="action-btn cancel">Cancel</button>
+                <button type="button" class="action-btn cancel" id="cancel-btn">Cancel</button>
             </div>
         </form>
     </div>
@@ -69,7 +84,7 @@
     </table>
 </div>
 
-<script type="module">
-    import { initProductEvents } from './products.js';
-    initProductEvents();
-  </script>
+<script type="module" src="./products.js"></script>
+
+</body>
+</html>
