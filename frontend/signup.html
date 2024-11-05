@@ -31,11 +31,11 @@
         <span class="logofont">GYMGARAGE</span>
       </div>
       <ul>
-        <li><a href="/home">Home</a></li>
-        <li><a href="/shop">Shop</a></li>
-        <li><a href="/plans">Plans</a></li>
-        <li><a href="/coaches">Coaches</a></li>
-        <li><a href="/about">About Us</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="shop">Shop</a></li>
+        <li><a href="plans">Plans</a></li>
+        <li><a href="coaches">Coaches</a></li>
+        <li><a href="about">About Us</a></li>
       </ul>
     </nav>
 
@@ -120,5 +120,31 @@
         </div>
       </section>
     </footer>
+
+    <script>
+      document.querySelector('.auth-form').addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const username = document.getElementById('username').value;
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+  
+          const response = await fetch('/api/signup', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, email, password }),
+          });
+  
+          const data = await response.json();
+          if (response.ok) {
+              alert('Signup successful');
+              localStorage.setItem('token', data.token);
+          } else {
+              alert(data.message);
+          }
+      });
+  </script>
+  
+
+
   </body>
 </html>

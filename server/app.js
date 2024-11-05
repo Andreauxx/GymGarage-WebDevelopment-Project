@@ -5,9 +5,113 @@
   import path from 'path';
   import { fileURLToPath } from 'url';
   import multer from 'multer';
+  import jwt from 'jsonwebtoken';
+  import bcrypt from 'bcrypt';
+  import { createUser, getUserByEmail } from './database.js';
+
+
 
   const app = express();
   app.use(express.json());
+
+
+
+
+  //LOGIN AND SIGNUP ROUTES 
+  const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+
+  // Signup Route
+  app.post('/api/signup', async (req, res) => {
+      const { username, email, password } = req.body;
+  
+      try {
+          const existingUser = await getUserByEmail(email);
+          if (existingUser) {
+              return res.status(400).json({ message: 'Email already in use' });
+          }
+  
+          const user = await createUser({ username, email, password });
+          const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+  
+          res.status(201).json({ message: 'User created successfully', token });
+      } catch (error) {
+          res.status(500).json({ message: 'Error creating user', error: error.message });
+      }
+  });
+  
+  // Login Route
+  app.post('/api/login', async (req, res) => {
+      const { email, password } = req.body;
+  
+      try {
+          const user = await getUserByEmail(email);
+          if (!user) {
+              return res.status(404).json({ message: 'User not found' });
+          }
+  
+          const validPassword = await bcrypt.compare(password, user.password);
+          if (!validPassword) {
+              return res.status(401).json({ message: 'Invalid password' });
+          }
+  
+          const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+  
+          res.status(200).json({ message: 'Login successful', token });
+      } catch (error) {
+          res.status(500).json({ message: 'Error logging in', error: error.message });
+      }
+  });
+  
+  // Middleware to authenticate requests
+  function authenticateToken(req, res, next) {
+      const token = req.headers['authorization'];
+      if (!token) return res.status(403).json({ message: 'No token provided' });
+  
+      jwt.verify(token, JWT_SECRET, (err, user) => {
+          if (err) return res.status(403).json({ message: 'Failed to authenticate token' });
+          req.user = user;
+          next();
+      });
+  }
+  
+  // Example of a protected route
+  app.get('/api/protected', authenticateToken, (req, res) => {
+      res.status(200).json({ message: 'This is a protected route', user: req.user });
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Set up __dirname manually
   const __filename = fileURLToPath(import.meta.url);

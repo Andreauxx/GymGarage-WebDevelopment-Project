@@ -1,5 +1,37 @@
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
+
+
+// Function to register a new user
+export async function createUser({ username, email, password, role = 'user' }) {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const { data, error } = await supabase
+      .from('users')
+      .insert([{ username, email, password: hashedPassword, role }])
+      .select();
+
+  if (error) {
+      throw new Error(error.message);
+  }
+  return data[0];
+}
+
+// Function to get a user by email (for login)
+export async function getUserByEmail(email) {
+  const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .single();
+
+  if (error) {
+      return null;
+  }
+  return data;
+}
+
+
 
 // Load environment variables from .env file
 dotenv.config();
