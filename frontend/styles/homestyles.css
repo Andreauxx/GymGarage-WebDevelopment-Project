@@ -657,6 +657,9 @@ nav ul li i {
     font-size: 18px;
     font-weight: bold;
     margin: 10px 0;
+    color: #e40505; /* or any other color you prefer */
+    text-decoration: none;
+
   }
 
   .product-card .price-section {
@@ -995,11 +998,19 @@ nav ul li i {
   transition: transform 0.8s ease;
 }
 
-.slider:hover img {
-  transform: scale(1.05);
-}
-
 /* Smooth Scroll for Anchor Links */
 html {
   scroll-behavior: smooth;
+}
+
+
+.login-link {
+  color: white;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.login-link i {
+  margin-right: 5px;
 }

@@ -1,0 +1,203 @@
+
+/*HOME<script>
+    // Function to shuffle an array (Fisher-Yates shuffle)
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+  
+    // Function to display products
+    function displayProducts(products) {
+      const productGrid = document.getElementById('scrollable-grid');
+      productGrid.innerHTML = ''; // Clear the grid
+  
+      products.forEach(product => {
+        const originalPrice = (!isNaN(parseFloat(product.original_price)))
+          ? parseFloat(product.original_price).toFixed(2)
+          : 'N/A';
+        const discountedPrice = (!isNaN(parseFloat(product.discounted_price)))
+          ? parseFloat(product.discounted_price).toFixed(2)
+          : null;
+        const discountPercentage = (typeof product.discount_percentage === 'number' && !isNaN(product.discount_percentage))
+          ? product.discount_percentage
+          : null;
+  
+        const priceDisplay = discountedPrice
+          ? `<span class="original-price">₱${originalPrice}</span> <span class="discounted-price">₱${discountedPrice}</span> <span class="discount-percentage">(${discountPercentage}% off)</span>`
+          : `<span class="price">₱${originalPrice}</span>`;
+  
+          const productCard = `
+  <div class="product-card">
+    ${product.discounted_price ? `<div class="save-banner">Save ₱${(product.original_price - product.discounted_price).toFixed(2)}</div>` : ''}
+    <img src="${product.image_url}" alt="${product.name}">
+    <h2>${product.name}</h2>
+    <div class="price-section">${priceDisplay}</div>
+    <button class="shop-now-btn">View Product</button>
+  </div>
+`;
+
+        productGrid.innerHTML += productCard;
+      });
+    }
+  
+    async function fetchProducts() {
+      try {
+        const response = await fetch('/api/products');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const products = await response.json();
+        shuffleArray(products);
+        const limitedProducts = products.slice(0, 8);
+        displayProducts(limitedProducts);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+  
+    document.addEventListener('DOMContentLoaded', fetchProducts);
+  </script>
+  
+  
+
+
+  <script>
+ document.addEventListener("DOMContentLoaded", function() {
+  const scrollableGrid = document.getElementById("scrollable-grid");
+  document.getElementById("arrow-left").addEventListener("click", () => {
+    scrollableGrid.scrollBy({ left: -300, behavior: "smooth" });
+  });
+  document.getElementById("arrow-right").addEventListener("click", () => {
+    scrollableGrid.scrollBy({ left: 300, behavior: "smooth" });
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SHOP<script>
+  document.getElementById("price-range").addEventListener("input", updatePriceLabel);
+  document.getElementById("apply-filters").addEventListener("click", fetchProducts);
+
+  function updatePriceLabel() {
+    const price = document.getElementById("price-range").value;
+    document.getElementById("price-label").innerText = `₱0 - ₱${price}`;
+  }
+
+
+  async function fetchProducts() {
+    // Set up query parameters based on search and filters
+    const searchQuery = document.getElementById("search-input").value.trim();
+    const category = document.getElementById("category").value;
+    const price = document.getElementById("price-range").value;
+    const availability = document.getElementById("availability").value;
+
+    let query = `/api/products?`; // Adjust based on your API
+    if (searchQuery) query += `search=${searchQuery}&`;
+    if (category && category !== "all") query += `category=${category}&`;
+    if (price) query += `price=${price}&`;
+    if (availability && availability !== "all") query += `availability=${availability}`;
+
+    try {
+        const response = await fetch(query);
+        if (!response.ok) throw new Error('Failed to fetch products');
+        const products = await response.json();
+        displayShopProducts(products); // Call specific function for Shop page
+    } catch (error) {
+        console.error("Error fetching products:", error);
+    }
+}
+
+
+
+function displayShopProducts(products) {
+  const productGrid = document.getElementById("product-grid");
+  productGrid.innerHTML = ""; // Clear the grid
+
+  if (products.length === 0) {
+    console.log("No products found");
+    productGrid.innerHTML = "<p>No products found.</p>";
+  } else {
+    console.log("Displaying Products:", products); // Log products to verify if they're passed correctly
+    products.forEach((product) => {
+      const originalPrice = product.original_price
+        ? `₱${product.original_price}`
+        : null;
+      const discountedPrice = product.discounted_price
+        ? `₱${product.discounted_price}`
+        : null;
+      const priceDisplay = discountedPrice
+        ? `<span class="original-price">${originalPrice}</span> <span class="discounted-price">${discountedPrice}</span>`
+        : `<span class="price">₱${product.original_price}</span>`;
+
+      const productCard = `
+        <div class="product-card">
+          ${product.discounted_price ? `<div class="save-banner">Save ₱${(product.original_price - product.discounted_price).toFixed(2)}</div>` : ''}
+          <img src="${product.image_url}" alt="${product.name}">
+          <h2>${product.name}</h2>
+          <div class="price-section">${priceDisplay}</div>
+        <!-- Example product list with "Add to Cart" button -->
+        <button class="add-to-cart" data-product-id="123">Add to Cart</button>
+        </div>
+      `;
+      productGrid.innerHTML += productCard;
+    });
+  }
+}
+
+
+
+function addToCart(productId) {
+    if (!isLoggedIn()) {
+        alert("Please login to add items to the cart.");
+        window.location.href = "login";
+        return;
+    }
+
+    // Add product to cart logic here, assuming a token is required
+    const token = localStorage.getItem('token');
+    fetch(`/api/cart/add`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ productId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Product added to cart successfully!");
+            updateCartCounter();
+        } else {
+            alert("Failed to add product to cart.");
+        }
+    })
+    .catch(error => console.error('Error adding to cart:', error));
+}
+
+function updateCartCounter() {
+    const cartCounter = document.querySelector(".cart-counter");
+    // Logic to update cart counter, possibly by fetching from the server
+    cartCounter.textContent = parseInt(cartCounter.textContent) + 1;
+}
+
+
+  document.addEventListener("DOMContentLoaded", fetchProducts);
+</script>*/

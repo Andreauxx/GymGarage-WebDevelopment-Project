@@ -31,11 +31,11 @@
         <span class="logofont">GYMGARAGE</span>
       </div>
       <ul>
-        <li><a href="/home">Home</a></li>
-        <li><a href="/shop">Shop</a></li>
-        <li><a href="/plans">Plans</a></li>
-        <li><a href="/coaches">Coaches</a></li>
-        <li><a href="/about">About Us</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="shop">Shop</a></li>
+        <li><a href="plans">Plans</a></li>
+        <li><a href="coaches">Coaches</a></li>
+        <li><a href="about">About Us</a></li>
       </ul>
     </nav>
 
@@ -108,30 +108,42 @@
     </footer>
 
 
-
     <script>
-      document.querySelector('.auth-form').addEventListener('submit', async (event) => {
-          event.preventDefault();
-          const email = document.getElementById('email').value;
-          const password = document.getElementById('password').value;
-  
-          const response = await fetch('/api/login', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email, password }),
-          });
-  
-          const data = await response.json();
-          if (response.ok) {
-              alert('Login successful');
-              localStorage.setItem('token', data.token); // Save JWT token for future requests
-          } else {
-              alert(data.message);
-          }
-      });
-  </script>
-  
+     document.querySelector('.auth-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
 
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
 
+    const data = await response.json();
+    if (response.ok) {
+      alert('Login successful');
+      localStorage.setItem('token', data.token); // Save JWT token
+      localStorage.setItem('username', data.username); // Save username
+      window.location.href = '/home'; // Redirect to homepage or another page
+    } else {
+      alert(data.message || 'Login failed');
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    alert('An error occurred during login.');
+  }
+});
+    </script>
+    
+
+    
+
+        <!-- Placeholder image with updated path -->
+        <img src="frontend/styles/Images/placeholder.png" alt="Profile" class="profile-img">
+
+        <!-- Load authdisplay.js with updated path -->
+        <script src="frontend/frontend_display_logics/authdisplay.js"></script>
   </body>
 </html>

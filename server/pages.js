@@ -14,6 +14,12 @@ pagesRouter.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/Home.html'));
 });
 
+
+// RENDERING HTML PAGES
+pagesRouter.get("/home", (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/Home.html'));
+});
+
 pagesRouter.get("/coaches", (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/Coaches.html'));
 });

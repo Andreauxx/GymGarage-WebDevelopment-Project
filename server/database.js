@@ -1,37 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-
-
-// Function to register a new user
-export async function createUser({ username, email, password, role = 'user' }) {
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const { data, error } = await supabase
-      .from('users')
-      .insert([{ username, email, password: hashedPassword, role }])
-      .select();
-
-  if (error) {
-      throw new Error(error.message);
-  }
-  return data[0];
-}
-
-// Function to get a user by email (for login)
-export async function getUserByEmail(email) {
-  const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', email)
-      .single();
-
-  if (error) {
-      return null;
-  }
-  return data;
-}
-
-
+import jwt from 'jsonwebtoken';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -40,6 +10,119 @@ dotenv.config();
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+
+
+
+
+
+export async function createUser({ f_name, l_name, username, address, number, email, password }) {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  console.log('Attempting to create user with hashed password:', hashedPassword);
+
+  const { data, error } = await supabase
+      .from('users')
+      .insert([{ f_name, l_name, username, address, number, email, password: hashedPassword }]) // Ensure username is included
+      .select();
+
+  if (error) {
+      console.error('Supabase error while creating user:', error.message);
+      throw new Error('Error creating user in database: ' + error.message);
+  }
+
+  console.log('User created successfully:', data);
+  return data[0];
+}
+
+
+// Function to get a user by email for login
+export async function getUserByEmail(email) {
+  const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .single();
+
+  if (error) {
+      throw new Error(error.message);
+  }
+
+  return data;
+}
+
+
+export function authenticateToken(req, res, next) {
+  const token = req.headers['authorization'];
+  if (!token) return res.sendStatus(401); // Unauthorized if no token
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403); // Forbidden if token is invalid
+      req.user = user;
+      next();
+  });
+}
+
+
+
+
+
+//Adding Products to the Database - Cart
+export async function addToCart(userId, productId, quantity) {
+  const { data, error } = await supabase
+    .from('cart')
+    .upsert({ user_id: userId, product_id: productId, quantity })
+    .select();
+
+  if (error) {
+    console.error('Error adding to cart:', error.message);
+    throw new Error('Error adding to cart');
+  }
+
+  return data[0];
+}
+
+export async function getCartItems(userId) {
+  const { data, error } = await supabase
+    .from('cart')
+    .select('*, products(name, original_price, discounted_price, image_url)')
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error('Error fetching cart items:', error.message);
+    throw new Error('Error fetching cart items');
+  }
+
+  return data;
+}
+
+
+// Fetch single product details by ID
+export async function getProductById(productId) {
+  const { data, error } = await supabase
+    .from('products')
+    .select('*, product_images(image_url)')
+    .eq('id', productId)
+    .single();
+
+  if (error) {
+    console.error("Error fetching product by ID:", error.message);
+    throw new Error('Error fetching product details');
+  }
+
+  return data;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Function to fetch products from Supabase with filters
 export async function getProducts({ search, category, price, availability }) {

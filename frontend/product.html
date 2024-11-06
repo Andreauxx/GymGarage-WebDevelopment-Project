@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shop | GymGarage</title>
@@ -8,171 +8,92 @@
       href="https://fonts.googleapis.com/css2?family=Michroma&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-  <link rel="stylesheet" href="product.css">
-</head>
-<body>
-
-    
+    <!-- Removed Lato font reference -->
+    <link rel="stylesheet" href="product.css" />
+    <script src="frontend/frontend_display_logics/products.js" defer></script>
+  </head>
+  <body>
     <!-- Main Navigation -->
     <nav class="main-nav">
-        <div class="logo">
-          <img src="Images/FinalLogo.png" alt="GymGarage Logo" />
-          <span class="logofont">GYMGARAGE</span>
-        </div>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="shop">Shop</a></li>
-          <li><a href="plans">Plans</a></li>
-          <li><a href="coaches">Coaches</a></li>
-          <li><a href="about">About Us</a></li>
-          <li>
-            <a href="cart">
-              <i class="fas fa-shopping-cart"></i>
-              Cart <span class="cart-counter">0</span>
-            </a>
-          </li>
-          <li>
-            <a href="login"> <i class="fas fa-user-plus"></i> Login/Sign Up </a>
-          </li>
-        </ul>
-      </nav>
-
-  <section class="breadcrumb">
-    <p><a href="/">Home</a> / <a href="/equipment.html">Gym Equipment</a> / Renegade Runner R1 Treadmill</p>
-  </section>
-
-  <section class="product-details">
-    <div class="product-gallery">
-      <img src="Images/treadmill-main.jpg" alt="Renegade Runner R1 Treadmill" class="main-img">
-      <div class="thumbnail-images">
-        <img src="Images/treadmill-thumb1.jpg" alt="Treadmill Side View">
-        <img src="Images/treadmill-thumb2.jpg" alt="Treadmill Display">
-        <img src="Images/treadmill-thumb3.jpg" alt="Treadmill Running Track">
+      <div class="logo">
+        <img src="Images/FinalLogo.png" alt="GymGarage Logo" />
+        <span class="logofont">GYMGARAGE</span>
       </div>
-    </div>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="shop">Shop</a></li>
+        <li><a href="plans">Plans</a></li>
+        <li><a href="coaches">Coaches</a></li>
+        <li><a href="about">About Us</a></li>
+        <li>
+          <a href="cart">
+            <i class="fas fa-shopping-cart"></i>
+            Cart <span class="cart-counter">0</span>
+          </a>
+        </li>
+        <li>
+          <a href="login"> <i class="fas fa-user-plus"></i> Login/Sign Up </a>
+        </li>
+      </ul>
+    </nav>
 
-    <div class="product-info">
-      <h1>Renegade Runner R1 Treadmill</h1>
-      <div class="price">
-        <span class="discounted-price">249,998.00 PHP</span>
-        <span class="original-price">349,999.00 PHP</span>
-        <span class="discount-percentage">29% OFF</span>
-      </div>
-      <div class="stock-status">
-        <p>Stock Status: <span>Sold Out</span></p>
-      </div>
-      
-      <div class="action-buttons">
-        <button class="sold-out-btn">Sold Out</button>
-        <button class="buy-now-btn">Buy it now</button>
-      </div>
-      
-      <div class="delivery-options">
-        <p><i class="fa fa-truck"></i> Cash on Delivery is not available for this item.</p>
-      </div>
-
-      <div class="secure-checkout">
-        <p>Secured checkout with:</p>
-        <img src="Images/payment-methods.png" alt="Payment Methods">
-      </div>
-
-      <div class="notify-restock">
-        <h4>Sign up for restock notifications!</h4>
-        <input type="email" placeholder="Enter your email for notifications">
-        <button class="notify-btn">Notify Me</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="related-products">
-    <h2>You may also like</h2>
-    <div class="related-products-grid">
-      <div class="related-product-card">
-        <img src="Images/bike.jpg" alt="Renegade Air Bike">
-        <p>Renegade Air Bike</p>
-        <span class="related-price">₱88,999.00</span>
-      </div>
-      <div class="related-product-card">
-        <img src="Images/rowing-machine.jpg" alt="Renegade Rowing Machine">
-        <p>Renegade Rowing Machine</p>
-        <span class="related-price">₱89,999.00</span>
-      </div>
-      <div class="related-product-card">
-        <img src="Images/treadmill-2.jpg" alt="NordicTrack Treadmill">
-        <p>NordicTrack Treadmill</p>
-        <span class="related-price">₱79,999.00</span>
-      </div>
-    </div>
-  </section>
-
-  <script >async function fetchProductData(productId) {
-    const response = await fetch(`/api/product/${productId}`);
-    const product = await response.json();
-    // Update the product details on the page
-}
-document.addEventListener('DOMContentLoaded', () => {
-    const productId = window.location.pathname.split("/").pop(); // Assuming product ID in URL
-    fetchProductData(productId);
-});
-</script>
-
-
-
-
-
-
-<footer>
-    <section class="footer">
-      <div class="footer-row">
-        <div class="footer-col">
-          <h4>Company Info</h4>
-          <ul class="links">
-            <li><a href="about">About Us</a></li>
-            <li><a href="contact">Contact Us</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="faq">FAQs</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Explore</h4>
-          <ul class="links">
-            <li><a href="#">Equipment Catalog</a></li>
-            <li><a href="#">Membership Plans</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Testimonials</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Legal</h4>
-          <ul class="links">
-            <li><a href="terms">Terms of Service</a></li>
-            <li><a href="cancel">Privacy Policy</a></li>
-            <li><a href="refund">Refund Policy</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Newsletter</h4>
-          <p>
-            Subscribe for updates on new equipment, promotions, and fitness
-            tips.
-          </p>
-          <form action="#" method="POST">
-            <input type="email" placeholder="Your email" required="" />
-            <button type="submit">SUBSCRIBE</button>
-          </form>
-          <div class="icons">
-            <i class="fa-brands fa-facebook-f"></i>
-            <i class="fa-brands fa-twitter"></i>
-            <i class="fa-brands fa-linkedin"></i>
-            <i class="fa-brands fa-github"></i>
-          </div>
-        </div>
-      </div>
+    <section class="breadcrumb">
+      <p>
+        <a href="/">Home</a> / <a href="/equipment.html">Gym Equipment</a> /
+        Product Details
+      </p>
     </section>
-  </footer>
-</body>
+
+    <section id="product-details" class="product-details">
+      <!-- Product details will be dynamically inserted here -->
+    </section>
+
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get("id");
+      console.log('Product ID:', productId);
+
+      async function fetchProductDetails() {
+        try {
+          const response = await fetch(`http://localhost:3000/api/products/${productId}`);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+          const product = await response.json();
+          const thumbnails = product.product_images 
+            ? product.product_images.map(img => `<img src="${img.image_url}" alt="Thumbnail">`).join('')
+            : '';
+
+          document.getElementById("product-details").innerHTML = `
+            <div class="product-gallery">
+              <img src="${product.image_url}" alt="${product.name}" class="main-img" />
+              <div class="thumbnail-images">${thumbnails}</div>
+            </div>
+
+            <div class="product-info">
+              <h1>${product.name}</h1>
+              <div class="price">
+                <span class="original-price">₱${product.original_price}</span>
+                ${product.discounted_price ? `<span class="discounted-price">₱${product.discounted_price}</span>` : ''}
+              </div>
+              <div class="stock-status">
+                <p>Stock Status: <span>${product.stock > 0 ? 'In Stock' : 'Sold Out'}</span></p>
+              </div>
+              <div class="description">
+                <p>${product.description || 'No description available.'}</p>
+              </div>
+              <div class="action-buttons">
+                <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
+                <button class="buy-now-btn">Buy it now</button>
+              </div>
+            </div>
+          `;
+        } catch (error) {
+          console.error("Error displaying product details:", error);
+          document.getElementById("product-details").innerHTML = `<p>Failed to load product details. Please try again later.</p>`;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", fetchProductDetails);
+    </script>
+  </body>
 </html>

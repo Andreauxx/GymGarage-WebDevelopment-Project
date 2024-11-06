@@ -2,10 +2,12 @@
   import supabase from './database.js';
   import { getProducts, saveProductToDatabase, updateProductInDatabase, deleteProductFromDatabase } from './database.js';
   import pagesRouter from './pages.js';
+  import { getProductById } from './database.js';
   import path from 'path';
   import { fileURLToPath } from 'url';
   import multer from 'multer';
   import jwt from 'jsonwebtoken';
+  import { authenticateToken } from './database.js';
   import bcrypt from 'bcrypt';
   import { createUser, getUserByEmail } from './database.js';
 
@@ -20,94 +22,103 @@
   //LOGIN AND SIGNUP ROUTES 
   const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
-  // Signup Route
-  app.post('/api/signup', async (req, res) => {
-      const { username, email, password } = req.body;
-  
-      try {
-          const existingUser = await getUserByEmail(email);
-          if (existingUser) {
-              return res.status(400).json({ message: 'Email already in use' });
-          }
-  
-          const user = await createUser({ username, email, password });
-          const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
-  
-          res.status(201).json({ message: 'User created successfully', token });
-      } catch (error) {
-          res.status(500).json({ message: 'Error creating user', error: error.message });
-      }
-  });
-  
-  // Login Route
-  app.post('/api/login', async (req, res) => {
-      const { email, password } = req.body;
-  
-      try {
-          const user = await getUserByEmail(email);
-          if (!user) {
-              return res.status(404).json({ message: 'User not found' });
-          }
-  
-          const validPassword = await bcrypt.compare(password, user.password);
-          if (!validPassword) {
-              return res.status(401).json({ message: 'Invalid password' });
-          }
-  
-          const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
-  
-          res.status(200).json({ message: 'Login successful', token });
-      } catch (error) {
-          res.status(500).json({ message: 'Error logging in', error: error.message });
-      }
-  });
-  
-  // Middleware to authenticate requests
-  function authenticateToken(req, res, next) {
-      const token = req.headers['authorization'];
-      if (!token) return res.status(403).json({ message: 'No token provided' });
-  
-      jwt.verify(token, JWT_SECRET, (err, user) => {
-          if (err) return res.status(403).json({ message: 'Failed to authenticate token' });
-          req.user = user;
-          next();
-      });
+// Signup Route
+app.post('/api/signup', async (req, res) => {
+  const { f_name, l_name, username, address, number, email, password } = req.body;
+  console.log('Received signup data:', req.body); // Debugging to ensure username is present
+
+  try {
+      const user = await createUser({ f_name, l_name, username, address, number, email, password });
+      console.log('User created:', user); // Log the created user
+
+      // Generate JWT token for the user
+      const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+      res.status(201).json({ message: 'User created successfully', token });
+  } catch (error) {
+      console.error('Error during signup:', error.message); // More specific error logging
+      res.status(500).json({ message: 'Server error: ' + error.message });
   }
-  
-  // Example of a protected route
-  app.get('/api/protected', authenticateToken, (req, res) => {
-      res.status(200).json({ message: 'This is a protected route', user: req.user });
-  });
+});
+
+
+
+// Login Route
+// Login Route
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await getUserByEmail(email); // Ensure getUserByEmail is correctly implemented
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    
+    // Verify password
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.status(400).json({ message: "Incorrect password" });
+    }
+
+    // Generate token if password is correct
+    const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+    res.json({ message: "Login successful", token, username: user.username });
+  } catch (error) {
+    console.error("Error during login:", error.message);
+    res.status(500).json({ message: "Server error during login" });
+  }
+});
+
+
+
+
+app.get('/product.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/product.html'));
+}); 
+
+
+
+
+//ADDING PRODUCTS TO CART
+app.post('/api/cart/add', authenticateToken, async (req, res) => {
+  const { productId } = req.body;
+  const userId = req.user.userId;
+
+  try {
+      // Assuming you have a function to add an item to the cart in database.js
+      await addToCart(userId, productId);
+      res.json({ success: true, message: "Product added to cart" });
+  } catch (error) {
+      console.error("Error adding to cart:", error);
+      res.status(500).json({ success: false, message: "Server error while adding to cart" });
+  }
+});
+
+
+app.get('/api/cart', authenticateToken, async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const cartItems = await getCartItems(userId);
+    res.status(200).json(cartItems);
+  } catch (error) {
+    console.error('Error fetching cart:', error.message);
+    res.status(500).json({ message: 'Server error fetching cart' });
+  }
+});
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Route to get product details by ID
+app.get('/api/products/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const product = await getProductById(id); // Uses Supabase
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 
 
@@ -117,9 +128,25 @@
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 
+
+
+// Serve all static files in the frontend directory
+app.use('/frontend', express.static(path.join(__dirname, '../frontend')));
+
+// Ensure specific MIME type for authdisplay.js
+app.get('/frontend/frontend_display_logics/authdisplay.js', (req, res) => {
+  res.type('application/javascript');
+  res.sendFile(path.join(__dirname, '../frontend/frontend_display_logics/authdisplay.js'));
+});
+
+
+
+
   // Static File Serving for CSS and Admin Resources
   app.use('/styles', express.static(path.join(__dirname, '../frontend/styles')));
   app.use('/admin_settings', express.static(path.join(__dirname, '../frontend/admin_settings')));
+
+
 
   // Multer Storage Configuration for Product Images
   const storage = multer.memoryStorage(); // For in-memory storage, adjust if needed for actual storage
