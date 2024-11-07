@@ -197,6 +197,36 @@ nav ul li i {
   margin-left: 5px;
 }
 
+
+
+
+.login-link {
+  color: white;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 1.15rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+  margin-left: 5px;
+}
+
+.login-link i {
+  margin-right: 5px;
+}
+
+
+.login-link:hover {
+  color: red; /* Change color on hover */
+  transform: scale(1.2); /* Optional scaling effect */
+  transform: translateY(-3px); /* Lift effect similar to other links */
+}
+
+.login-link:hover i {
+  color: red; /* Ensure icon changes too */
+}
+
 /* Line Separator */
 .custom-line {
   display: block;
@@ -1023,16 +1053,4 @@ nav ul li i {
 /* Smooth Scroll for Anchor Links */
 html {
   scroll-behavior: smooth;
-}
-
-
-.login-link {
-  color: white;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-}
-
-.login-link i {
-  margin-right: 5px;
 }

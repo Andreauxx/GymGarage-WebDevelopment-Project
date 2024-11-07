@@ -46,10 +46,15 @@
         <div class="input-container">
           <label for="email">Email</label>
           <input type="email" id="email" placeholder="Your Email" required />
-  
+
           <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Your Password" required />
-  
+          <input
+            type="password"
+            id="password"
+            placeholder="Your Password"
+            required
+          />
+
           <button type="submit" class="btn">Login</button>
         </div>
         <p>Don’t have an account? <a href="/signup">Sign up here</a></p>
@@ -82,8 +87,8 @@
             <h4>Legal</h4>
             <ul class="links">
               <li><a href="/terms">Terms of Service</a></li>
-            <li><a href="/cancel">Privacy Policy</a></li>
-            <li><a href="/refund">Refund Policy</a></li>
+              <li><a href="/cancel">Privacy Policy</a></li>
+              <li><a href="/refund">Refund Policy</a></li>
             </ul>
           </div>
           <div class="footer-col">
@@ -107,43 +112,45 @@
       </section>
     </footer>
 
-
     <script>
-     document.querySelector('.auth-form').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
+      document
+        .querySelector(".auth-form")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
 
-  try {
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+          try {
+            const response = await fetch("/api/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, password }),
+            });
 
-    const data = await response.json();
-    if (response.ok) {
-      alert('Login successful');
-      localStorage.setItem('token', data.token); // Save JWT token
-      localStorage.setItem('username', data.username); // Save username
-      window.location.href = '/home'; // Redirect to homepage or another page
-    } else {
-      alert(data.message || 'Login failed');
-    }
-  } catch (error) {
-    console.error('Error during login:', error);
-    alert('An error occurred during login.');
-  }
-});
+            const data = await response.json();
+            if (response.ok) {
+              localStorage.setItem("token", data.token); // Save JWT token
+              localStorage.setItem("username", data.username); // Save username
+
+              // Decode the JWT to get the role
+              const { role } = JSON.parse(atob(data.token.split(".")[1]));
+
+              if (role === "admin") {
+                window.location.href = "/admin/dashboard"; // Redirect admin users
+              } else {
+                window.location.href = "/home"; // Redirect normal users
+              }
+            } else {
+              alert(data.message || "Login failed");
+            }
+          } catch (error) {
+            console.error("Error during login:", error);
+            alert("An error occurred during login.");
+          }
+        });
     </script>
-    
 
-    
-
-        <!-- Placeholder image with updated path -->
-        <img src="frontend/styles/Images/placeholder.png" alt="Profile" class="profile-img">
-
-        <!-- Load authdisplay.js with updated path -->
-        <script src="frontend/frontend_display_logics/authdisplay.js"></script>
+    <!-- Load authdisplay.js with updated path -->
+    <script src="frontend/frontend_display_logics/authdisplay.js"></script>
   </body>
 </html>
