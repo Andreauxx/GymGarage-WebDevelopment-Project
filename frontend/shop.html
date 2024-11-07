@@ -185,9 +185,25 @@
           import { fetchShopProducts, setupFilters } from '/frontend/frontend_display_logics/shop.js';
         
           document.addEventListener("DOMContentLoaded", () => {
-            fetchShopProducts();
-            setupFilters();
+            fetchShopProducts(); // Load products on page load
+            setupFilters(); // Apply filter functionality
+        
+            // Set up the search button functionality
+            const searchButton = document.getElementById('search-btn');
+            searchButton.addEventListener('click', () => {
+              const searchQuery = document.getElementById('search-input').value.trim();
+              fetchShopProducts({ search: searchQuery }); // Pass search query to the fetch function
+            });
+        
+            // Enable search on "Enter" key press in the input field
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('keypress', (e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault(); // Prevent default form submission behavior
+                searchButton.click(); // Trigger search button click
+              }
+            });
           });
-        </script>
+        </script> 
         
 </html>

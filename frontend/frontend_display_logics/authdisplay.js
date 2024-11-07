@@ -24,7 +24,7 @@ export function setupAddToCartButtons() {
           if (!isLoggedIn()) {
               event.preventDefault();
               alert("Please log in to add items to the cart.");
-              window.location.href = '/login.html';
+              window.location.href = '/login';
           } else {
               const productId = button.getAttribute('data-product-id');
               if (productId) {

@@ -66,7 +66,7 @@ export function formatPrice(price) {
           onAddToCart(product.id);
         } else {
           alert("Please log in to add items to the cart.");
-          window.location.href = '/login.html';
+          window.location.href = '/login';
         }
       });
     });

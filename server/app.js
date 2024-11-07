@@ -46,20 +46,25 @@ app.post('/api/signup', async (req, res) => {
 // Login Route
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
+
   try {
-    const user = await getUserByEmail(email); // Ensure getUserByEmail is correctly implemented
+    const user = await getUserByEmail(email);
     if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
-    
-    // Verify password
+
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res.status(400).json({ message: "Incorrect password" });
     }
 
-    // Generate token if password is correct
-    const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+    // Include role in the token
+    const token = jwt.sign(
+      { userId: user.id, email: user.email, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
     res.json({ message: "Login successful", token, username: user.username });
   } catch (error) {
     console.error("Error during login:", error.message);
@@ -106,6 +111,21 @@ app.get('/api/cart', authenticateToken, async (req, res) => {
 });
 
 
+app.use('/admin', authenticateToken, (req, res, next) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ message: 'Forbidden: Admins only.' });
+  }
+  next();
+});
+
+
+app.get('/protected-route', authenticateToken, (req, res) => {
+  if (req.user.permissions && req.user.permissions.includes('read:protected')) {
+    res.json({ message: 'Access granted!' });
+  } else {
+    res.status(403).json({ message: 'Forbidden: Access denied.' });
+  }
+});
 
 
 
@@ -237,6 +257,99 @@ app.get('/api/products/:id', async (req, res) => {
       res.status(500).json({ message: 'Error deleting product', error: error.message });
     }
   });
+
+
+
+
+
+//REVIEWS END POINT
+
+// Add a review
+app.get('/api/products/:id/reviews', authenticateToken, async (req, res) => {
+  const productId = req.params.id;
+
+  try {
+    const reviews = await getProductReviews(productId); // This function uses Supabase
+    if (!reviews || reviews.length === 0) {
+      return res.status(404).json({ message: 'No reviews found for this product.' });
+    }
+
+    // Send all review data properly formatted
+    res.json(reviews);
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    res.status(500).json({ message: 'Failed to fetch reviews' });
+  }
+});
+
+
+
+// Fetch reviews
+app.get('/api/products/:productId/reviews', async (req, res) => {
+  const { productId } = req.params;
+  
+  try {
+      // Get all reviews for the product
+      const reviews = await db('comments').where('product_id', productId);
+      
+      // Calculate the average rating
+      const totalReviews = reviews.length;
+      const averageRating = totalReviews ? 
+          (reviews.reduce((acc, review) => acc + review.rating, 0) / totalReviews).toFixed(1) : 0;
+
+      // Calculate the rating breakdown
+      const breakdown = [5, 4, 3, 2, 1].reduce((acc, rating) => {
+          acc[rating] = reviews.filter(review => review.rating === rating).length;
+          return acc;
+      }, {});
+
+      res.json({
+          averageRating,
+          totalReviews,
+          breakdown,
+          reviews // Optional: Include reviews if you're fetching them together
+      });
+  } catch (error) {
+      console.error('Error fetching reviews:', error);
+      res.status(500).json({ error: 'Failed to fetch reviews' });
+  }
+});
+
+
+
+app.post('/api/products/:id/reviews', authenticateToken, async (req, res) => {
+  const { rating, comment_text } = req.body;
+  const userId = req.user.userId;
+  const productId = req.params.id;
+
+  try {
+    const { data, error } = await supabase.from('comments').insert([
+      { product_id: productId, user_id: userId, rating, comment_text }
+    ]);
+
+    if (error) {
+      console.error('Error adding review:', error.message);
+      res.status(500).json({ message: 'Failed to add review' });
+    } else {
+      res.status(201).json({ message: 'Review added successfully', review: data[0] });
+    }
+  } catch (error) {
+    console.error('Error submitting review:', error.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Serve Main Admin HTML Page for /admin Routes
   app.use('/admin/*', (req, res) => {

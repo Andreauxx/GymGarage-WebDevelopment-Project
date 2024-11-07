@@ -52,13 +52,15 @@ export async function getUserByEmail(email) {
 
 
 export function authenticateToken(req, res, next) {
-  const token = req.headers['authorization'];
-  if (!token) return res.sendStatus(401); // Unauthorized if no token
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) return res.sendStatus(401); // Unauthorized
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) return res.sendStatus(403); // Forbidden if token is invalid
-      req.user = user;
-      next();
+    if (err) return res.sendStatus(403); // Forbidden
+    req.user = user;
+    next();
   });
 }
 
@@ -112,7 +114,18 @@ export async function getProductById(productId) {
   return data;
 }
 
-
+// Fetch reviews for a specific product
+export async function getProductReviews(productId) {
+  const query = `
+    SELECT comments.*, users.username 
+    FROM comments
+    JOIN users ON comments.user_id = users.id
+    WHERE product_id = $1
+    ORDER BY created_at DESC
+  `;
+  const { rows } = await pool.query(query, [productId]);
+  return rows;
+}
 
 
 
@@ -129,11 +142,13 @@ export async function getProducts({ search, category, price, availability }) {
   let query = supabase.from('products').select('*');
 
   // Apply filters
-  if (search) query = query.ilike('name', `%${search}%`);
+  if (search) query = query.ilike('name', `%${search}%`); // Case-insensitive search
   if (category && category !== 'all') query = query.eq('category', category);
-  if (price) query = query.lte('original_price', price);
+  if (price) query = query.lte('discounted_price', price); // Use price filter for discounted price
   if (availability) {
-    query = availability === 'in-stock' ? query.gt('stock', 0) : query.eq('stock', 0);
+    query = availability === 'in-stock' 
+      ? query.gt('stock', 0) 
+      : query.eq('stock', 0); // Handle stock availability
   }
 
   const { data, error } = await query;
@@ -144,6 +159,7 @@ export async function getProducts({ search, category, price, availability }) {
 
   return data;
 }
+
 
 // Function to add a new product and images to Supabase
 export async function saveProductToDatabase({ name, original_price, discounted_price, category, stock, mainImageUrl, additionalImages = [] }) {

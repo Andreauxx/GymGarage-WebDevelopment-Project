@@ -608,8 +608,8 @@ nav ul li i {
   .product-offers {
     z-index: 1;
     padding: 20px;
-    padding-left: 150px;
-    padding-right: 150px;
+    padding-left: 140px;
+    padding-right: 140px;
     background-color: #000;
     position: relative;
     overflow: hidden;
@@ -625,90 +625,112 @@ nav ul li i {
   .product-header h2 {
     color: #f80000;
   }
-
   .product-essentials-grid {
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
     padding-bottom: 20px;
+    gap: 20px; /* Space between cards */
   }
-
   .product-card {
-    background-color: #fff;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between; /* Ensure button stays at the bottom */
+    align-items: center; /* Center content horizontally */
+    background-color: white;
     border: 1px solid #ddd;
     border-radius: 10px;
-    width: 400px;
-    padding: 20px;
+    width: 300px; /* Consistent card width */
+    height: 400px; /* Set a fixed height for uniformity */
+    padding: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    position: relative; /* This ensures the save-banner is positioned relative to the card */
-    margin-right: 20px; /* Adjust spacing */
-    overflow: hidden;
+    position: relative;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
- /* Image */
-.product-card img {
-  width: 120%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-  .product-card h2 {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 10px 0;
-    color: #e40505; /* or any other color you prefer */
-    text-decoration: none;
-
-  }
-
-  .product-card .price-section {
+  .product-card img {
+    width: 100%;
+    height: 230px; /* Consistent image height */
+    object-fit: cover;
+    border-radius: 5px;
     margin-bottom: 10px;
   }
-
-  .product-card .original-price {
+  
+  .product-card h2 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e40505;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  
+  .price-section {
+    margin-bottom: auto; /* Push price to fill the space above the button */
+  }
+  
+  .original-price {
     text-decoration: line-through;
     color: grey;
     font-size: 14px;
   }
-
-  .product-card .discounted-price {
+  
+  .discounted-price {
     color: red;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
   }
-
-  .product-card .shop-now-btn {
+  
+  .add-to-cart-btn {
     background-color: #f80000;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 15px;
+    border: none;
     border-radius: 5px;
+    cursor: pointer;
     width: 100%;
-    text-align: center;
-    display: block;
-    text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 15px; /* Add spacing from the price section */
   }
-
-  .product-card .shop-now-btn:hover {
-    background-color: darkred;
-    transform: translateY(-3px);
+  
+  .add-to-cart-btn:hover {
+    background-color: #b71c1c;
+    transform: translateY(-2px);
   }
-
-
-
- 
-  .product-card .save-banner {
-    position: absolute; 
+  
+  
+  .save-banner {
+    position: absolute;
     top: 10px;
     left: 10px;
-    background-color: red; /* Ensure visibility */
+    background-color: red;
     color: white;
-    padding: 5px 10px;
-    font-size: 13px;
-    font-weight: bold;
-    z-index: 10; /* Ensure it's on top of other content */
-    border-radius: 5px; /* Make it look cleaner */
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 3px;
+  }
+  
+  .navigation-arrows {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .arrow-left, .arrow-right {
+    background-color: rgba(216, 6, 6, 0.6);
+    padding: 10px;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .arrow-left:hover, .arrow-right:hover {
+    background-color: #d32f2f;
   }
   
 
