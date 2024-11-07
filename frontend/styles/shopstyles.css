@@ -225,6 +225,27 @@ body {
   font-weight: bold;
 }
 
+/* Pagination */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 8px 16px;
+  margin: 0 4px;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
 /* Footer */
 
 /* Importing Google font - Open Sans */

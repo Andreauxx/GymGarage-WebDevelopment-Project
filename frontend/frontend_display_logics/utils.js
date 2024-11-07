@@ -33,6 +33,19 @@ export function formatPrice(price) {
   
   // Product display functionality
   export function displayProducts(products, containerId, onAddToCart) {
+
+    // Error Check
+    const container = document.getElementById(containerId);
+  if (!container) {
+    console.error(`Container with ID '${containerId}' not found.`);
+    return;
+  }
+
+  if (!products || !Array.isArray(products) || products.length === 0) {
+    container.innerHTML = '<p>No products found.</p>';
+    return;
+  }
+
     const productGrid = document.getElementById(containerId);
     productGrid.innerHTML = '';
   
