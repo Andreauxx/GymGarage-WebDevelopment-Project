@@ -374,3 +374,31 @@ body {
 .close:focus {
   color: black;
 }
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 18px;
+  margin: 0 10px;
+}

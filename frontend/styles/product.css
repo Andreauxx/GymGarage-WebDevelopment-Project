@@ -626,35 +626,31 @@ body {
 }
 
 
-
-
-  /*FOOTER*/
-
-  /* Footer */
-
 /* Importing Google font - Open Sans */
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .footer {
-  position: relative;
+  position: relative; 
   max-width: auto;
   width: 100%;
-  margin: auto;
+  margin: auto; 
   background: #000000;
-  padding: 50px 50px;
+  padding: 50px 50px ; 
 }
 
 .footer .footer-row {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding-right: 70px;
+  padding-left: 70px;
   gap: 3.5rem;
 }
 
@@ -679,8 +675,7 @@ body {
 }
 
 .footer-col .links li a:hover {
-  color: #ec0a0a;
-  transform: scale(1.2);
+  color: red;
 }
 
 .footer-col p {
@@ -700,7 +695,7 @@ body {
   background: none;
   width: 100%;
   outline: none;
-  border: 1px solid #ee1000;
+  border: 1px solid red;
   caret-color: #fff;
   color: #fff;
   padding-left: 10px;
@@ -722,7 +717,7 @@ body {
 }
 
 .footer-col form button:hover {
-  background: #cecccc;
+  background: #f80000;
 }
 
 .footer-col .icons {
@@ -742,3 +737,4 @@ body {
   color: #f80000;
   transform: rotate(360deg); /* Use rotate instead of rotate3d for simplicity */
 }
+/*End of Footer Styling */

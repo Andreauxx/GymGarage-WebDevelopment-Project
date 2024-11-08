@@ -5,15 +5,20 @@ let editingProductId = null;
 export async function loadProducts() {
     console.log("Loading products...");
     try {
-        const response = await fetch('/api/products');
+        const response = await fetch('/api/products'); // Ensure query params if paginated
         if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
 
-        const products = await response.json();
+        const { results: products } = await response.json(); // Destructure results from the response
         const productsTable = document.getElementById("products-table");
 
         if (!productsTable) {
             console.error("Products table element not found.");
             return;
+        }
+
+        // Ensure products is an array
+        if (!Array.isArray(products)) {
+            throw new Error("Invalid data format: Expected an array of products in 'results'");
         }
 
         productsTable.innerHTML = products.map(product => `
@@ -39,7 +44,7 @@ export async function loadProducts() {
         console.error("Failed to load products:", error);
     }
 }
-
+    
 export function showAddProductForm() {
     document.getElementById("form-title").innerText = "Add Product";
     document.getElementById("product-form-container").style.display = "block";

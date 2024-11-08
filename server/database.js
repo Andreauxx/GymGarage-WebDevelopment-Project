@@ -153,6 +153,7 @@ export async function saveProductToDatabase({
   stock,
   mainImageUrl,
   additionalImages = [],
+  description
 }) {
   const { data: product, error: productError } = await supabase
     .from("products")
@@ -164,6 +165,7 @@ export async function saveProductToDatabase({
         category,
         stock,
         image_url: mainImageUrl,
+        description
       },
     ])
     .select();
@@ -202,6 +204,7 @@ export async function updateProductInDatabase(
     stock,
     mainImageUrl,
     additionalImages = [],
+    description
   }
 ) {
   const { data: product, error: productError } = await supabase
@@ -213,6 +216,7 @@ export async function updateProductInDatabase(
       category,
       stock,
       image_url: mainImageUrl,
+      description
     })
     .eq("id", id)
     .select();

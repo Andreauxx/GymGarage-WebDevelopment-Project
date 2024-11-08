@@ -102,6 +102,41 @@ app.post('/api/login', async (req, res) => {
 
 
 
+// Example backend response
+app.get('/api/products', async (req, res) => {
+  try {
+    const { page = 1, limit = 10, search, category, price, availability } = req.query;
+
+    // Fetch products from the database
+    const products = await getProducts({ search, category, price, availability });
+
+    // Paginate results
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const paginatedResults = {};
+    if (endIndex < products.length) {
+      paginatedResults.next = {
+        page: parseInt(page) + 1,
+        limit: parseInt(limit),
+      };
+    }
+
+    if (startIndex > 0) {
+      paginatedResults.previous = {
+        page: parseInt(page) - 1,
+        limit: parseInt(limit),
+      };
+    }
+
+    paginatedResults.results = products.slice(startIndex, endIndex);
+
+    res.json(paginatedResults);
+  } catch (error) {
+    console.error('Error fetching products:', error.message);
+    res.status(500).json({ message: 'Error fetching products' });
+  }
+});
 
 
 
@@ -318,10 +353,10 @@ app.get('/api/products/:id', async (req, res) => {
 
 app.post('/api/products', upload.single('image_file'), async (req, res) => {
   try {
-    const { name, original_price, discounted_price, category, stock, image_url, extra_images } = req.body;
+    const { name, original_price, discounted_price, category, stock, image_url, extra_images,description } = req.body;
     const product = await saveProductToDatabase({
       name, original_price, discounted_price, category, stock, 
-      mainImageUrl: image_url, additionalImages: JSON.parse(extra_images || '[]')
+      mainImageUrl: image_url,description, additionalImages: JSON.parse(extra_images || '[]')
     });
     res.status(201).json({ message: 'Product added successfully', product });
   } catch (error) {
@@ -331,10 +366,10 @@ app.post('/api/products', upload.single('image_file'), async (req, res) => {
 
 app.put('/api/products/:id', upload.single('image_file'), async (req, res) => {
   try {
-    const { name, original_price, discounted_price, category, stock, image_url, extra_images } = req.body;
+    const { name, original_price, discounted_price, category, stock, image_url, extra_images, description } = req.body;
     const product = await updateProductInDatabase(req.params.id, {
       name, original_price, discounted_price, category, stock, 
-      mainImageUrl: image_url, additionalImages: JSON.parse(extra_images || '[]')
+      mainImageUrl: image_url,description, additionalImages: JSON.parse(extra_images || '[]')
     });
     res.status(200).json({ message: 'Product updated successfully', product });
   } catch (error) {
