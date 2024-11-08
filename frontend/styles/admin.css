@@ -511,3 +511,32 @@
     background-color: var(--primary-color);
     color: var(--white);
 }
+
+
+/* Table Styling */
+#members-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#members-table th, #members-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--dark-grey);
+    font-size: 14px;
+}
+
+#members-table th {
+    background-color: var(--primary-color);
+    color: var(--white);
+    text-transform: uppercase;
+}
+
+#members-table tbody tr:nth-child(even) {
+    background-color: var(--grey);
+}
+
+#members-table tbody tr:hover {
+    background-color: var(--dark-grey);
+}

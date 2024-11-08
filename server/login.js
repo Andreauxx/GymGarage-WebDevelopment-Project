@@ -1,4 +1,5 @@
-// Assuming your login.js has a login function
+// Assuming your login.js has a login function 
+// THIS IS NOTTT BEING USEDD ANYMOREEE
 async function loginUser(email, password) {
     const response = await fetch('/api/login', {
         method: 'POST',

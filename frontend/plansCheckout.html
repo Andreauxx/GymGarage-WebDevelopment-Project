@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan Checkout | GymGarage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="checkoutstyles.css" />
+</head>
+<body>
+  <header>
+    <div class="promo-header">
+      <a href="/">Home</a> | <a href="/plans">Plans</a>
+    </div>
+  </header>
+
+  <main class="checkout-container">
+    <h1>Checkout: <span id="plan-name"></span></h1>
+
+    <section class="invoice-section">
+      <h2>Invoice</h2>
+      <table class="invoice-table">
+        <tr>
+          <th>Plan</th>
+          <th>Price</th>
+          <th>Duration</th>
+        </tr>
+        <tr>
+          <td id="invoice-plan"></td>
+          <td id="invoice-price"></td>
+          <td id="invoice-duration"></td>
+        </tr>
+      </table>
+      <div class="invoice-total">
+        <p><strong>Total: ₱<span id="total-price"></span></strong></p>
+      </div>
+    </section>
+
+    <form id="checkout-form">
+      <button type="submit" class="btn-order">Confirm Membership</button>
+      <button type="button" class="btn-cancel" onclick="window.location.href='/plans'">Cancel</button>
+    </form>
+  </main>
+
+  <footer>
+    <!-- Footer content here -->
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const planId = urlParams.get("planId");
+
+      if (!planId) {
+        alert("No plan selected.");
+        window.location.href = "/plans";
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/plans/${planId}`, { credentials: "include" });
+        if (!response.ok) throw new Error("Failed to fetch plan details.");
+
+        const plan = await response.json();
+        document.getElementById("plan-name").textContent = plan.plan_name;
+        document.getElementById("invoice-plan").textContent = plan.plan_name;
+        document.getElementById("invoice-price").textContent = `₱${plan.price}`;
+        document.getElementById("invoice-duration").textContent = plan.duration;
+        document.getElementById("total-price").textContent = plan.price;
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to load plan details.");
+        window.location.href = "/plans";
+      }
+    });
+    document.getElementById("checkout-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const urlParams = new URLSearchParams(window.location.search);
+  const planId = urlParams.get("planId");
+
+  try {
+    const response = await fetch("/api/plans/checkout", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ planId })
+    });
+
+    if (!response.ok) throw new Error("Checkout failed.");
+    alert("Membership successfully activated!");
+    window.location.href = "/home";
+  } catch (error) {
+    console.error("Error during checkout:", error);
+    alert("Failed to activate membership.");
+  }
+});
+
+  </script>
+</body>
+</html>

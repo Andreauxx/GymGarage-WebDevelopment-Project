@@ -11,7 +11,7 @@ const routes = {
     "/admin/orders": "/admin_settings/orders.html",
     "/admin/products": "/admin_settings/products.html",
     "/admin/users": "/admin_settings/users.html",
-    "/admin/transactions": "/admin_settings/transactions.html",
+    "/admin/members": "/admin_settings/members.html",
     "/admin/404": "/admin_settings/404.html",
 };
 
@@ -38,6 +38,9 @@ async function handleLocation() {
             await loadUsers();
         } else if (path === "/admin/orders") {
             await loadOrders();
+        }
+         if (path === "/admin/members") {
+            await loadMembers();
         }
     } catch (error) {
         console.error("Error loading page:", error);
@@ -167,6 +170,35 @@ async function loadOrders() {
         console.error("Error loading orders:", error);
     }
 }
+
+async function loadMembers() {
+    try {
+      const response = await fetch('/api/admin/members');
+      if (!response.ok) throw new Error('Failed to fetch members data.');
+  
+      const members = await response.json();
+      const tableBody = document.querySelector('#members-table tbody');
+  
+      // Clear the table to prevent duplicate data
+      tableBody.innerHTML = '';
+  
+      members.forEach((member) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${member.user.f_name} ${member.user.l_name}</td>
+          <td>${member.user.email}</td>
+          <td>${member.plan.plan_name} - ₱${member.plan.price}</td>
+          <td>${new Date(member.start_date).toLocaleDateString()}</td>
+          <td>${new Date(member.expiry_date).toLocaleDateString()}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    } catch (error) {
+      console.error('Error fetching members:', error);
+    }
+  }
+  
+
 
 function attachOrderEvents() {
     document.querySelectorAll(".action-btn.view").forEach((button) => {

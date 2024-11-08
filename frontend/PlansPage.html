@@ -70,7 +70,7 @@
             Choose the best plan that fits your fitness goals
           </p>
           <div class="plans-container">
-            <div class="plan-card basic-plan">
+            <div class="plan-card basic-plan" data-plan-id="1">
               <h2>Basic Plan</h2>
               <p class="price">₱1,500/month</p>
               <p class="access">
@@ -81,8 +81,9 @@
                 <li>Participation in group fitness classes</li>
                 <li>Free fitness assessment upon joining</li>
               </ul>
+              <button class="select-plan-btn">Choose Plan</button>
             </div>
-            <div class="plan-card premium-plan">
+            <div class="plan-card premium-plan" data-plan-id="2">
               <h2>Premium Plan</h2>
               <p class="price">₱2,500/month</p>
               <p class="access">Access: 24/7 gym access</p>
@@ -94,8 +95,10 @@
                 <li>Free locker and towel service</li>
                 <li>Discount on fitness equipment purchases</li>
               </ul>
+              <button class="select-plan-btn">Choose Plan</button>
+
             </div>
-            <div class="plan-card elite-plan">
+            <div class="plan-card elite-plan" data-plan-id="3">
               <h2>Elite Plan</h2>
               <p class="price">₱4,000/month</p>
               <p class="access">
@@ -109,6 +112,8 @@
                 <li>Access to VIP lounge and recovery area</li>
                 <li>15% discount on all Gym Garage merchandise</li>
               </ul>
+              <button class="select-plan-btn">Choose Plan</button>
+
             </div>
           </div>
         </section>
@@ -170,5 +175,26 @@
        
         <!-- Load authdisplay.js with updated path -->
         <script src="frontend/frontend_display_logics/authdisplay.js"></script>
+        <script>
+          async function redirectToPlanCheckout(planId) {
+            try {
+              const sessionResponse = await fetch('/api/session', { credentials: 'include' });
+              if (!sessionResponse.ok) throw new Error('Not logged in');
+        
+              window.location.href = `/plansCheckout?planId=${planId}`;
+            } catch (error) {
+              alert('Please log in to select a plan.');
+              window.location.href = '/login';
+            }
+          }
+        
+          document.querySelectorAll('.plan-card').forEach(card => {
+            const planId = card.dataset.planId;
+            card.querySelector('.select-plan-btn').addEventListener('click', () => redirectToPlanCheckout(planId));
+          });
+        </script>
+        
+        
+        
   </body>
 </html>

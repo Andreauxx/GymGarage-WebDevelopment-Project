@@ -33,7 +33,6 @@ app.use(cors({
 }));
 
 
-
 app.use(
   session({
     secret: 'your_secret_key',
@@ -63,6 +62,10 @@ function isAuthenticated(req, res, next) {
 // Protect Cart routes using session-based authentication
 app.use('/api/cart', isAuthenticated);
 
+
+
+
+//======ROUTES FOR SIGNIN LOGIN LOGOUT=========//
 // Login route
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
@@ -102,34 +105,24 @@ app.post('/api/login', async (req, res) => {
 
 
 
-// Example backend response
-app.get('/api/products', async (req, res) => {
-  try {
-    const { page = 1, limit = 10, search, category, price, availability } = req.query;
-
-    // Ensure `getProducts` returns an array
-    const products = await getProducts({ search, category, price, availability });
-
-    if (!Array.isArray(products)) {
-      throw new TypeError('Expected products to be an array');
-    }
-
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-
-    const paginatedResults = {
-      results: products.slice(startIndex, endIndex), // Ensure results is always an array
-      next: endIndex < products.length ? { page: parseInt(page) + 1, limit } : null,
-      previous: startIndex > 0 ? { page: parseInt(page) - 1, limit } : null,
-    };
-
-    res.json(paginatedResults);
-    console.log('Paginated Results:', paginatedResults);
-  } catch (error) {
-    console.error('Error fetching products:', error.message);
-    res.status(500).json({ message: 'Error fetching products' });
-  }
+// Logout route
+app.post('/api/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) return res.status(500).json({ message: "Failed to log out" });
+    res.clearCookie('connect.sid');
+    res.json({ message: "Logged out successfully" });
+  });
 });
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -154,24 +147,14 @@ app.get('/admin/*', (req, res) => {
 
 
 
-// Logout route
-app.post('/api/logout', (req, res) => {
-  req.session.destroy(err => {
-    if (err) return res.status(500).json({ message: "Failed to log out" });
-    res.clearCookie('connect.sid');
-    res.json({ message: "Logged out successfully" });
-  });
-});
 
-// Cart routes
-// Add to Cart Route
+// ======== CART ROUTES ============ 
 
 app.post('/api/cart/add', async (req, res) => {
   const { productId } = req.body;
   const userId = req.session.userId; // Fetch userId from session
 
 
- 
 
   if (!productId) {
     return res.status(400).json({ message: 'Product ID is required' });
@@ -200,7 +183,6 @@ app.post('/api/cart/add', async (req, res) => {
 });
 
 
-
 // Fetch Cart Items
 app.get('/api/cart', async (req, res) => {
   console.log('Fetching cart items for user:', req.session.userId); // Log session user ID
@@ -213,7 +195,6 @@ app.get('/api/cart', async (req, res) => {
     res.status(500).json({ message: 'Error fetching cart items' });
   }
 });
-
 
 
 app.get('/api/cart/count', async (req, res) => {
@@ -249,7 +230,6 @@ app.get('/api/cart/count', async (req, res) => {
     res.status(500).json({ message: 'Server error fetching cart count.' });
   }
 });
-
 
 // Checkout Route
 app.post('/api/checkout', async (req, res) => {
@@ -321,7 +301,41 @@ app.post('/api/cart/update', async (req, res) => {
 
 
 
-// Product routes
+// ========== PRODUCT ROUTES ===========
+
+
+// Example backend response
+app.get('/api/products', async (req, res) => {
+  try {
+    const { page = 1, limit = 10, search, category, price, availability } = req.query;
+
+    // Ensure `getProducts` returns an array
+    const products = await getProducts({ search, category, price, availability });
+
+    if (!Array.isArray(products)) {
+      throw new TypeError('Expected products to be an array');
+    }
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const paginatedResults = {
+      results: products.slice(startIndex, endIndex), // Ensure results is always an array
+      next: endIndex < products.length ? { page: parseInt(page) + 1, limit } : null,
+      previous: startIndex > 0 ? { page: parseInt(page) - 1, limit } : null,
+    };
+
+    res.json(paginatedResults);
+    console.log('Paginated Results:', paginatedResults);
+  } catch (error) {
+    console.error('Error fetching products:', error.message);
+    res.status(500).json({ message: 'Error fetching products' });
+  }
+});
+
+
+
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
@@ -380,7 +394,107 @@ app.delete('/api/products/:id', async (req, res) => {
   }
 });
 
-// Review routes
+
+
+
+// == MEMBERSHIP PLANS
+
+app.get('/plansCheckout', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'plansCheckout.html')); // Adjust for correct relative path
+});
+
+app.post('/api/plans/checkout', async (req, res) => {
+  const { planId } = req.body;
+  const userId = req.session.userId;
+
+  if (!userId) {
+    return res.status(401).json({ message: 'Unauthorized: Please log in.' });
+  }
+
+  try {
+    const { data: plan, error: fetchPlanError } = await supabase
+      .from('membership_plans')
+      .select('id, price, duration, plan_name')
+      .eq('id', planId)
+      .single();
+
+    if (fetchPlanError || !plan) {
+      return res.status(404).json({ message: 'Plan not found.' });
+    }
+
+    const expiryDate = calculateExpiryDate(plan.duration);
+
+    const { error: insertError } = await supabase
+      .from('members')
+      .insert({
+        user_id: userId,
+        plan_id: planId,
+        start_date: new Date().toISOString(),
+        expiry_date: expiryDate,
+      });
+
+    if (insertError) {
+      throw new Error('Failed to activate membership.');
+    }
+
+    res.status(201).json({ message: 'Membership successfully activated.' });
+  } catch (error) {
+    console.error('Checkout error:', error.message);
+    res.status(500).json({ message: 'Checkout failed.', details: error.message });
+  }
+});
+
+
+
+app.get('/api/plans/:id', async (req, res) => {
+  try {
+    const { data: plan, error } = await supabase
+      .from('membership_plans')
+      .select('*')
+      .eq('id', req.params.id)
+      .single();
+
+    if (error || !plan) {
+      return res.status(404).json({ message: 'Plan not found' });
+    }
+
+    res.json(plan);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch plan details.' });
+  }
+});
+
+
+
+// Route to check if the user is logged in
+app.get('/api/session', (req, res) => {
+  if (req.session && req.session.userId) {
+    res.status(200).json({ userId: req.session.userId });
+  } else {
+    res.status(401).json({ message: 'Not logged in' });
+  }
+});
+
+
+function calculateExpiryDate(duration) {
+  const now = new Date();
+  if (duration === 'monthly') {
+    now.setMonth(now.getMonth() + 1);
+  } else if (duration === 'yearly') {
+    now.setFullYear(now.getFullYear() + 1);
+  } else {
+    throw new Error('Invalid plan duration');
+  }
+  return now.toISOString();
+}
+
+
+
+
+
+
+
+// ============ REVIEW ROUTES AND CHECKOUT ======= 
 app.get('/api/products/:id/reviews', isAuthenticated, async (req, res) => {
   try {
     const reviews = await getProductReviews(req.params.id);
@@ -404,8 +518,6 @@ app.post('/api/products/:id/reviews', isAuthenticated, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-
-
 
 
 
@@ -518,7 +630,6 @@ app.get('/api/admin/orders/:id', async (req, res) => {
 });
 
 
-
 // Complete Order Route
 app.post('/api/admin/orders/:id/complete', async (req, res) => {
   const orderId = req.params.id;
@@ -585,6 +696,31 @@ app.post('/api/admin/orders/:id/complete', async (req, res) => {
   }
 });
 
+
+
+
+
+// Fetch All Members
+app.get('/api/admin/members', async (req, res) => {
+  try {
+    const { data: members, error } = await supabase
+      .from('members')
+      .select(`
+        id,
+        user:users (f_name, l_name, email),
+        plan:membership_plans (plan_name, price),
+        start_date,
+        expiry_date
+      `);
+
+    if (error) throw error;
+
+    res.status(200).json(members);
+  } catch (error) {
+    console.error('Error fetching members:', error);
+    res.status(500).json({ message: 'Failed to fetch members.' });
+  }
+});
 
 
 
@@ -677,6 +813,9 @@ app.post('/api/logout', (req, res) => {
 
 
 // Serve static files
+// Serve static files from the "frontend" or "public" directory
+app.use(express.static(path.join(__dirname, 'frontend'))); // Ensure 'frontend' contains your HTML files
+app.use(express.static(path.join(__dirname, 'public')));  // Replace 'public' with the actual directory
 app.use('/frontend', express.static(path.join(__dirname, '../frontend')));
 app.use('/styles', express.static(path.join(__dirname, '../frontend/styles')));
 app.get('/product.html', (req, res) => res.sendFile(path.join(__dirname, '../frontend/product.html')));
