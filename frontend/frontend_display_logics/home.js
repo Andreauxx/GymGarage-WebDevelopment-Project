@@ -27,6 +27,15 @@ async function fetchHomeProducts() {
     }
 }
 
+import { isLoggedIn, updateCartCounter } from './authdisplay.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (isLoggedIn()) {
+    updateCartCounter(); // Show the correct cart count for logged-in users
+  }
+});
+
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchHomeProducts();
 });

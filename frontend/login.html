@@ -4,14 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login | GymGarage</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Michroma&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="loginstyles.css" />
   </head>
   <body>
@@ -39,39 +34,40 @@
       </ul>
     </nav>
 
-    <!-- Login Form Section -->
+    <!-- Main Content -->
     <main class="form-container">
-      <form class="auth-form">
-        <h2>Login</h2>
-        <div class="input-container">
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="Your Email" required />
+      <!-- This container will display either the login form or the user info -->
+      <div id="auth-content">
+        <!-- Login form (initially displayed if user is not logged in) -->
+        <form class="auth-form" id="login-form">
+          <h2>Login</h2>
+          <div class="input-container">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Your Email" required />
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Your Password" required />
+            <button type="submit" class="btn">Login</button>
+          </div>
+          <p>Don’t have an account? <a href="/signup">Sign up here</a></p>
+        </form>
 
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Your Password"
-            required
-          />
-
-          <button type="submit" class="btn">Login</button>
+        <!-- Logged-in user info (hidden initially) -->
+        <div id="user-info" style="display: none;">
+          <h2>Welcome, <span id="username-display"></span>!</h2>
+          <p><a href="/profile">View Profile</a> | <a href="#" id="logout-link">Logout</a></p>
         </div>
-        <p>Don’t have an account? <a href="/signup">Sign up here</a></p>
-      </form>
+      </div>
     </main>
-
-    <!-- Footer Section -->
     <footer>
       <section class="footer">
         <div class="footer-row">
           <div class="footer-col">
             <h4>Company Info</h4>
             <ul class="links">
-              <li><a href="/about">About Us</a></li>
-              <li><a href="/contact">Contact Us</a></li>
+              <li><a href="about">About Us</a></li>
+              <li><a href="contact">Contact Us</a></li>
               <li><a href="#">Careers</a></li>
-              <li><a href="#">FAQs</a></li>
+              <li><a href="faq">FAQs</a></li>
             </ul>
           </div>
           <div class="footer-col">
@@ -86,9 +82,9 @@
           <div class="footer-col">
             <h4>Legal</h4>
             <ul class="links">
-              <li><a href="/terms">Terms of Service</a></li>
-              <li><a href="/cancel">Privacy Policy</a></li>
-              <li><a href="/refund">Refund Policy</a></li>
+              <li><a href="terms">Terms of Service</a></li>
+              <li><a href="cancel">Privacy Policy</a></li>
+              <li><a href="refund">Refund Policy</a></li>
             </ul>
           </div>
           <div class="footer-col">
@@ -112,10 +108,21 @@
       </section>
     </footer>
 
+    <!-- JavaScript to handle login and display user details -->
     <script>
-      document
-        .querySelector(".auth-form")
-        .addEventListener("submit", async (event) => {
+      // On page load, check if the user is logged in
+      document.addEventListener("DOMContentLoaded", () => {
+        const username = localStorage.getItem("username");
+        if (username) {
+          displayUserInfo(username);
+        } else {
+          setupLoginForm();
+        }
+      });
+
+      // Show login form if user is not logged in
+      function setupLoginForm() {
+        document.getElementById("login-form").addEventListener("submit", async (event) => {
           event.preventDefault();
           const email = document.getElementById("email").value;
           const password = document.getElementById("password").value;
@@ -129,17 +136,8 @@
 
             const data = await response.json();
             if (response.ok) {
-              localStorage.setItem("token", data.token); // Save JWT token
-              localStorage.setItem("username", data.username); // Save username
-
-              // Decode the JWT to get the role
-              const { role } = JSON.parse(atob(data.token.split(".")[1]));
-
-              if (role === "admin") {
-                window.location.href = "/admin/dashboard"; // Redirect admin users
-              } else {
-                window.location.href = "/home"; // Redirect normal users
-              }
+              localStorage.setItem("username", data.username);
+              displayUserInfo(data.username);
             } else {
               alert(data.message || "Login failed");
             }
@@ -148,9 +146,33 @@
             alert("An error occurred during login.");
           }
         });
-    </script>
+      }
 
-    <!-- Load authdisplay.js with updated path -->
-    <script src="frontend/frontend_display_logics/authdisplay.js"></script>
+      // Display user information if they are logged in
+      function displayUserInfo(username) {
+        document.getElementById("login-form").style.display = "none";
+        document.getElementById("user-info").style.display = "block";
+        document.getElementById("username-display").textContent = username;
+
+        document.getElementById("logout-link").addEventListener("click", logout);
+      }
+
+      // Logout function
+      async function logout(event) {
+        event.preventDefault();
+        try {
+          const response = await fetch("/api/logout", { method: "POST" });
+          if (response.ok) {
+            localStorage.removeItem("username");
+            window.location.reload();
+          } else {
+            alert("Failed to log out.");
+          }
+        } catch (error) {
+          console.error("Error during logout:", error);
+          alert("An error occurred during logout.");
+        }
+      }
+    </script>
   </body>
 </html>

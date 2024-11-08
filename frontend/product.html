@@ -80,7 +80,7 @@
       </div>
 
       <div class="action-buttons">
-        <button class="add-to-cart">Add to Cart</button>
+        <button class="add-to-cart" data-product-id="PRODUCT_ID">Add to Cart</button>
         <button class="buy-now-btn">Buy it now</button>
       </div>
 
@@ -281,6 +281,7 @@
 
 
 
+<script src="/frontend/frontend_display_logics/authdisplay.js" type="module"></script>
 
 
 
@@ -334,6 +335,13 @@
 
           const product = await response.json();
 
+
+           // Dynamically set product ID in Add to Cart button
+    const addToCartButton = document.querySelector('.add-to-cart');
+    if (addToCartButton) {
+      addToCartButton.setAttribute('data-product-id', product.id);
+    }
+    
           // Ensure elements exist before trying to update them.
           const mainImg = document.querySelector(".main-img");
           const productName = document.getElementById("product-name");
@@ -435,6 +443,18 @@ document.getElementById("review-form").addEventListener("submit", async (event) 
 
 
 </script>
+
+
+
+<script type="module">
+  import { setupAddToCartButtons } from '/frontend/frontend_display_logics/authdisplay.js';
+
+  // Initialize Add to Cart buttons with login restriction
+  document.addEventListener('DOMContentLoaded', () => {
+    setupAddToCartButtons();
+  });
+</script>
+
     <!-- Importing and running JavaScript modules -->
     <script type="module">
       import { shuffleArray, displayProducts } from '/frontend/frontend_display_logics/utils.js';

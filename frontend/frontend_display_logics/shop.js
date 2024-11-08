@@ -1,7 +1,5 @@
-// shop.js
 import { displayProducts } from './utils.js';
-import { addToCart, updateCartCounter } from './authdisplay.js';
-
+import { addToCart, updateCartCounter, isLoggedIn } from './authdisplay.js';
 
 export async function fetchShopProducts() {
   const searchQuery = document.getElementById("search-input").value.trim();
@@ -19,8 +17,7 @@ export async function fetchShopProducts() {
     const response = await fetch(query);
     if (!response.ok) throw new Error('Failed to fetch products');
     const products = await response.json();
-    displayProducts(products, 'product-grid', addToCart);
-    updateCartCounter(); // Update cart count on load
+    displayProducts(products, 'product-grid', addToCart); // Load products in the grid
   } catch (error) {
     console.error("Error fetching products for shop:", error);
     document.getElementById('product-grid').innerHTML = '<p>Failed to load products.</p>';
@@ -36,7 +33,16 @@ export function setupFilters() {
   });
 }
 
+// New function to initialize the page and handle both products and cart
+async function initializeShopPage() {
+  await fetchShopProducts(); // Fetch and display products first
+
+  if (isLoggedIn()) {
+    await updateCartCounter(); // Only update cart counter if the user is logged in
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  fetchShopProducts(); // Initial load
-  setupFilters();       // Setup filter functionality
+  initializeShopPage(); // Initialize the shop page components
+  setupFilters(); // Set up the filter functionality
 });

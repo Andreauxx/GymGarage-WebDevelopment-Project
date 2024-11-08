@@ -202,5 +202,16 @@
             });
           });
         </script> 
+
+<script type="module">
+  import { fetchShopProducts, setupAddToCartButtons } from '/frontend/frontend_display_logics/shop.js';
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    fetchShopProducts().then(() => {
+      setupAddToCartButtons(); // Set up buttons after products are loaded
+    });
+  });
+</script>
+  </body>
         
 </html>
