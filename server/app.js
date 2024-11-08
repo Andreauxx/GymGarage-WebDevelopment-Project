@@ -19,7 +19,7 @@ import {
   removeItemFromCart,
   checkoutCart, // Keep these
 } from './database.js';
-
+import cors from 'cors';
 import pagesRouter from './pages.js';
 import supabase from './database.js';
 
@@ -27,7 +27,13 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:5173', // Adjust for your frontend URL
+  credentials: true, // Allow sending cookies
+}));
+
+
+
 app.use(
   session({
     secret: 'your_secret_key',
@@ -41,6 +47,8 @@ app.use(
   })
 );
 
+
+app.use(express.json());
 
 // Middleware for session-based authentication
 function isAuthenticated(req, res, next) {
@@ -57,21 +65,48 @@ app.use('/api/cart', isAuthenticated);
 // Login route
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
+
   try {
-    const user = await getUserByEmail(email);
+    const user = await getUserByEmail(email); // Ensure admin user exists in database
     if (!user) return res.status(400).json({ message: 'User not found' });
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(400).json({ message: 'Incorrect password' });
 
-    req.session.userId = user.id; // Ensure this is saved for future requests
-    req.session.username = user.username;
-    res.json({ message: 'Login successful', username: user.username });
+    req.session.userId = user.id;
+    req.session.username = user.email; // Store email for admin check
+
+    // Check if the user is an admin
+    if (user.email === 'admin@gmail.com') {
+      req.session.isAdmin = true; // Add admin flag
+      res.json({ message: 'Admin login successful', isAdmin: true });
+    } else {
+      req.session.isAdmin = false;
+      res.json({ message: 'User login successful', isAdmin: false });
+    }
   } catch (error) {
     console.error('Error during login:', error.message);
     res.status(500).json({ message: 'Server error during login' });
   }
 });
+
+
+app.get('/admin/*', (req, res) => {
+  if (req.session.userId && req.session.isAdmin) {
+    res.sendFile(path.join(__dirname, '../frontend/admin_settings/admin.html'));
+  } else {
+    res.status(403).send('Forbidden: Admins only');
+  }
+});
+
+
+
+app.use('/admin_settings', express.static(path.join(__dirname, '../frontend/admin_settings')));
+app.get('/admin/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/admin_settings/admin.html'));
+});
+
+
 
 
 // Logout route
@@ -138,11 +173,35 @@ app.get('/api/cart', async (req, res) => {
 
 app.get('/api/cart/count', async (req, res) => {
   try {
-    const cartItems = await getCartItems(req.session.userId);
+    const userId = req.session.userId; // Ensure the session contains userId
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: Please log in.' });
+    }
+
+    const { data: cart, error: cartError } = await supabase
+      .from('carts')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('status', 'pending')
+      .single();
+
+    if (cartError || !cart) {
+      return res.json({ count: 0 });
+    }
+
+    const { data: cartItems, error: itemsError } = await supabase
+      .from('cart_items')
+      .select('id')
+      .eq('cart_id', cart.id);
+
+    if (itemsError) {
+      return res.status(500).json({ message: 'Error fetching cart count' });
+    }
+
     res.json({ count: cartItems.length });
   } catch (error) {
     console.error('Error fetching cart count:', error.message);
-    res.status(500).json({ message: 'Failed to fetch cart count' });
+    res.status(500).json({ message: 'Server error fetching cart count.' });
   }
 });
 
@@ -173,24 +232,46 @@ app.post('/api/cart/remove', async (req, res) => {
 
 app.post('/api/cart/update', async (req, res) => {
   const { productId, quantity } = req.body;
-  const userId = req.session.userId;
+  const userId = req.session.userId; // Use session to get the logged-in user
 
-  console.log(`Updating product ${productId} to quantity ${quantity} for user ${userId}`);
+  if (!userId) {
+    return res.status(401).json({ message: 'Unauthorized: Please log in' });
+  }
+
+  if (!productId || !quantity || quantity <= 0) {
+    return res.status(400).json({ message: 'Invalid product ID or quantity' });
+  }
 
   try {
-    if (!productId || !quantity) {
-      return res.status(400).json({ message: 'Product ID and quantity are required.' });
+    // Fetch the user's pending cart
+    const { data: cart, error: cartError } = await supabase
+      .from('carts')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('status', 'pending')
+      .single();
+
+    if (cartError || !cart) {
+      return res.status(404).json({ message: 'Pending cart not found' });
     }
 
-    await updateCartItemQuantity(userId, productId, quantity);
-    res.json({ message: 'Quantity updated successfully.' });
+    // Update the cart item's quantity
+    const { error: updateError } = await supabase
+      .from('cart_items')
+      .update({ quantity })
+      .eq('cart_id', cart.id)
+      .eq('product_id', productId);
+
+    if (updateError) {
+      throw new Error(updateError.message);
+    }
+
+    res.json({ message: 'Cart quantity updated successfully' });
   } catch (error) {
     console.error('Error updating cart quantity:', error.message);
-    res.status(500).json({ message: 'Failed to update cart quantity.' });
+    res.status(500).json({ message: 'Failed to update cart quantity' });
   }
 });
-
-
 
 
 
@@ -279,11 +360,181 @@ app.post('/api/products/:id/reviews', isAuthenticated, async (req, res) => {
   }
 });
 
+
+
+
+
+// Fetch Order History for Logged-in User
+app.get('/api/orders', isAuthenticated, async (req, res) => {
+  const userId = req.session.userId;
+
+  try {
+    const { data: orders, error } = await supabase
+      .from('orders')
+      .select(`
+        id, 
+        total_price, 
+        status, 
+        created_at,
+        order_items (
+          quantity,
+          price,
+          products (
+            name
+          )
+        )
+      `)
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching orders:', error.message);
+      return res.status(500).json({ message: 'Failed to fetch orders' });
+    }
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Unexpected error:', error.message);
+    res.status(500).json({ message: 'Server error while fetching orders' });
+  }
+});
+
+
+
+
+
+
+
+//====================ADMIN=====================
+app.get('/api/admin/orders', async (req, res) => {
+  try {
+      const { data: orders, error } = await supabase
+          .from('orders')
+          .select(`
+              id,
+              total_price,
+              status,
+              created_at,
+              address,
+              user:users(id, f_name, l_name, email),
+              order_items (
+                  quantity,
+                  price,
+                  product:products(name)
+              )
+          `); // No inline comments inside the query string.
+
+      if (error) {
+          console.error('Supabase Query Error:', error);
+          throw error;
+      }
+
+      console.log('Fetched Orders:', orders);
+      res.status(200).json(orders);
+  } catch (error) {
+      console.error('Error fetching orders:', error.message);
+      res.status(500).json({ message: 'Error fetching orders.' });
+  }
+});
+
+app.get('/api/admin/orders/:id', async (req, res) => {
+  const orderId = req.params.id;
+
+  try {
+      const { data: order, error } = await supabase
+          .from('orders')
+          .select(`
+              id,
+              total_price,
+              status,
+              created_at,
+              address,
+              user:users(id, f_name, l_name, email),
+              order_items (
+                  quantity,
+                  price,
+                  product:products(name)
+              )
+          `)
+          .eq('id', orderId)
+          .single(); 
+
+      if (error) {
+          console.error('Supabase Query Error:', error);
+          throw error;
+      }
+
+      console.log('Fetched Order Details:', order);
+      res.status(200).json(order);
+  } catch (error) {
+      console.error('Error fetching order details:', error.message);
+      res.status(500).json({ message: 'Error fetching order details.' });
+  }
+});
+
+
+
+app.post('/api/admin/orders/:id/complete', async (req, res) => {
+  const orderId = req.params.id;
+
+  try {
+      const { error } = await supabase
+          .from('orders')
+          .update({ status: 'Completed' })
+          .eq('id', orderId);
+
+      if (error) throw error;
+
+      res.status(200).json({ message: 'Order marked as complete.' });
+  } catch (error) {
+      console.error('Error completing order:', error.message);
+      res.status(500).json({ message: 'Error completing order.' });
+  }
+});
+
+
+
+app.get('/api/admin/users', async (req, res) => {
+  try {
+    const { data: users, error } = await supabase
+      .from('users')
+      .select('id, email, role, f_name, l_name');
+
+    if (error) throw error;
+
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: 'No users found.' });
+    }
+
+    const formattedUsers = users.map(user => ({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      name: `${user.f_name} ${user.l_name}` // Combine first and last name
+    }));
+
+    res.status(200).json(formattedUsers);
+  } catch (error) {
+    console.error('Error fetching users:', error.message);
+    res.status(500).json({ message: 'Error fetching users.' });
+  }
+});
+
+
+// Logout route
+app.post('/api/logout', (req, res) => {
+  req.session.destroy(err => {
+      if (err) return res.status(500).json({ message: "Failed to log out" });
+      res.clearCookie('connect.sid'); // Ensure session cookie is cleared
+      res.json({ message: "Logged out successfully" });
+  });
+});
+
+
+
 // Serve static files
 app.use('/frontend', express.static(path.join(__dirname, '../frontend')));
 app.use('/styles', express.static(path.join(__dirname, '../frontend/styles')));
-app.use('/admin_settings', express.static(path.join(__dirname, '../frontend/admin_settings')));
-app.use('/admin', express.static(path.join(__dirname, '../frontend/admin_settings')));
 app.get('/product.html', (req, res) => res.sendFile(path.join(__dirname, '../frontend/product.html')));
 
 // HTML Routing via pagesRouter

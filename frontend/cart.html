@@ -277,8 +277,9 @@
               event.target.closest("tr").remove();
 
               // Update cart totals and counter
-              await updateCartCounter();
               await loadCartItems(); // Ensure cart reflects correct backend state
+
+              updateCartCounter();
             } catch (error) {
               console.error(
                 "Error during item removal process:",

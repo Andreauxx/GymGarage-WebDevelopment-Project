@@ -1,4 +1,6 @@
 /* General Reset */
+
+
 * {
     margin: 0;
     padding: 0;
@@ -212,6 +214,106 @@
   background-color: darkred;
   color: white;
   text-decoration: none;
+}
+
+
+#order-history {
+  margin-top: 30px;
+  text-align: left;
+  color: white;
+  max-width: 80%; /* Increase the width to take up more space */
+  height: 350px; /* Set a fixed height */
+  overflow-y: auto; /* Make it scrollable vertically */
+  margin-left: auto; 
+  margin-right: auto; 
+}
+
+#order-history h3 {
+  font-size: 24px;
+  color: red;
+  margin-bottom: 20px;
+  font-family: 'Michroma', sans-serif;
+  text-align: center;
+}
+
+.order {
+  background-color: #979797;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid red;
+  margin-bottom: 15px;
+  font-family: 'Open Sans', sans-serif;
+  transition: transform 0.3s ease;
+}
+
+.order:hover {
+  transform: scale(1.02); /* Slight hover effect */
+}
+
+.order p {
+  font-size: 16px;
+  color: #ddd;
+  margin: 5px 0;
+}
+
+.order-items p {
+  margin: 5px 0;
+}
+
+.btn-complete {
+  background-color: #f80000;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-complete:hover {
+  background-color: darkred;
+}
+
+#orders-container::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+#orders-container::-webkit-scrollbar-thumb {
+  background-color: #555; /* Color of the scrollbar thumb */
+  border-radius: 4px; /* Rounder edges */
+}
+
+#orders-container::-webkit-scrollbar-thumb:hover {
+  background-color: #f80000; /* Change color when hovered */
+}
+
+@keyframes fadeIn {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+}
+
+.status.pending {
+  background-color: orange;
+}
+
+.status.completed {
+  background-color: green;
+}
+
+.status.cancelled {
+  background-color: red;
 }
 
 

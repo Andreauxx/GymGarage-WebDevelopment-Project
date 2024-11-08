@@ -235,7 +235,7 @@
           if (response.ok) {
             const { message, orderId } = await response.json();
             alert(message);
-            window.location.href = `/confirmation?orderId=${orderId}`;
+            window.location.href = `/home?order=${orderId}`;
           } else {
             const { message } = await response.json();
             alert(message || "Checkout failed.");
