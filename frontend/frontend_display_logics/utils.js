@@ -17,7 +17,7 @@ export function formatPrice(price) {
     return token && parseJwt(token);
   }
   
-  // JWT parser
+  // JWT parser // Decided not to use this anymore had a hard time putting the token in the header
   function parseJwt(token) {
     try {
       const base64Url = token.split('.')[1];
@@ -76,13 +76,21 @@ export function formatPrice(price) {
 
 
 
-// Shuffle an array in place
-export function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
+// Shuffle an array in place and filter out products with long names
+export function shuffleArray(array, maxNameLength = 30) {
+  // Filter out products with long names
+  const filteredArray = array.filter(product => product.name.length <= maxNameLength);
+
+  // Shuffle the filtered array
+  for (let i = filteredArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [filteredArray[i], filteredArray[j]] = [filteredArray[j], filteredArray[i]];
+  }
+
+  // Return the shuffled, filtered array
+  return filteredArray;
 }
+
 
   
   // Cart functionality

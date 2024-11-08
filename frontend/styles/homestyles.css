@@ -676,7 +676,7 @@ nav ul li i {
     border: 1px solid #ddd;
     border-radius: 10px;
     width: 300px; /* Consistent card width */
-    height: 400px; /* Set a fixed height for uniformity */
+    height: 500px; /* Set a fixed height for uniformity */
     padding: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     position: relative;
@@ -686,7 +686,7 @@ nav ul li i {
   
   .product-card img {
     width: 100%;
-    height: 230px; /* Consistent image height */
+    height: 260px; /* Consistent image height */
     object-fit: cover;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -1109,4 +1109,168 @@ html {
 
 #modal-ok-btn:hover {
   background-color: #b71c1c;
+}
+
+
+/*RESPONSIVENESS*/
+
+
+/* General Responsive Adjustments */
+@media (max-width: 1024px) {
+  .hero-section h1 {
+    font-size: 150px; /* Reduce heading size */
+  }
+
+  .search-input {
+    width: 30rem; /* Adjust search input width */
+  }
+
+  .header-content {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;
+  }
+
+  .nav-bottom {
+    justify-content: center; /* Center nav links */
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 100px; /* Further reduce heading size */
+  }
+
+  .search-input {
+    width: 50%;
+  }
+
+  .nav-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .header-content {
+    padding: 10px; /* Reduce padding */
+  }
+
+  .essentials-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  }
+
+  .cta-buttons .btn {
+    padding: 10px 20px; /* Reduce button size */
+  }
+
+  .nav-top {
+    flex-direction: column; /* Stack navigation items */
+    align-items: flex-start;
+  }
+
+  .nav-center {
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+
+  .nav-bottom {
+    flex-wrap: wrap; /* Wrap bottom nav links */
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .search-container {
+    width: 100%; /* Full width search container */
+  }
+
+  .search-input {
+    width: 100%; /* Full width for search input */
+  }
+
+  .footer-row {
+    flex-direction: column; /* Stack footer columns */
+    align-items: center;
+    gap: 20px;
+  }
+
+  .footer-col {
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer-col input {
+    width: 90%; /* Adjust input width */
+  }
+
+  .icons {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    height: 60vh; /* Reduce hero section height */
+  }
+
+  .hero-section h1 {
+    font-size: 60px; /* Smaller heading */
+  }
+
+  .search-input {
+    width: 90%; /* Full width for mobile */
+  }
+
+  .essentials-grid {
+    grid-template-columns: 1fr; /* Single column for essentials */
+  }
+
+  .product-card {
+    width: 100%; /* Full width product cards */
+  }
+
+  .stores-container {
+    flex-direction: column; /* Stack stores */
+  }
+
+  .store-image {
+    margin-top: 20px; /* Add margin for spacing */
+  }
+
+  .footer-row {
+    padding: 0 20px; /* Adjust padding for smaller screens */
+  }
+
+  .footer-col p {
+    font-size: 14px; /* Smaller font size for footer text */
+  }
+
+  .footer-col h4 {
+    font-size: 16px; /* Adjust heading size */
+  }
+
+
+  .nav-top {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-bottom {
+    align-items: center;
+    gap: 10px;
+  }
+
+  .search-input {
+    width: 90%;
+  }
+}
+
+@media (max-width: 360px) {
+  .promo-header {
+    font-size: 12px; /* Smaller promo text */
+  }
+
+  .btn {
+    font-size: 0.9em; /* Reduce button text size */
+  }
+
+  .slider {
+    height: 25vh; /* Adjust slider height */
+  }
 }

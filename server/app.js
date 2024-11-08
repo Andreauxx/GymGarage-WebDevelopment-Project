@@ -107,36 +107,30 @@ app.get('/api/products', async (req, res) => {
   try {
     const { page = 1, limit = 10, search, category, price, availability } = req.query;
 
-    // Fetch products from the database
+    // Ensure `getProducts` returns an array
     const products = await getProducts({ search, category, price, availability });
 
-    // Paginate results
+    if (!Array.isArray(products)) {
+      throw new TypeError('Expected products to be an array');
+    }
+
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
-    const paginatedResults = {};
-    if (endIndex < products.length) {
-      paginatedResults.next = {
-        page: parseInt(page) + 1,
-        limit: parseInt(limit),
-      };
-    }
-
-    if (startIndex > 0) {
-      paginatedResults.previous = {
-        page: parseInt(page) - 1,
-        limit: parseInt(limit),
-      };
-    }
-
-    paginatedResults.results = products.slice(startIndex, endIndex);
+    const paginatedResults = {
+      results: products.slice(startIndex, endIndex), // Ensure results is always an array
+      next: endIndex < products.length ? { page: parseInt(page) + 1, limit } : null,
+      previous: startIndex > 0 ? { page: parseInt(page) - 1, limit } : null,
+    };
 
     res.json(paginatedResults);
+    console.log('Paginated Results:', paginatedResults);
   } catch (error) {
     console.error('Error fetching products:', error.message);
     res.status(500).json({ message: 'Error fetching products' });
   }
 });
+
 
 
 

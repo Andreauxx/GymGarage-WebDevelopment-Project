@@ -144,7 +144,7 @@
   <section class="home-gym-essentials">
     <div class="section-header">
       <h2>Home Gym Essentials</h2>
-      <a href="#" class="view-all">View all <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="shop" class="view-all">View all <i class="fa-solid fa-arrow-right"></i></a>
     </div>
     <div class="essentials-grid">
       <div class="category-card">
@@ -445,93 +445,8 @@
 
 
 
-  <!-- Importing and running JavaScript modules -->
-  <script type="module">
-    import { shuffleArray, displayProducts } from '/frontend/frontend_display_logics/utils.js';
-    import { isLoggedIn, addToCart } from '/frontend/frontend_display_logics/authdisplay.js';
+  <script type="module" src="/frontend/frontend_display_logics/home.js"></script>
 
-    async function fetchHomeProducts() {
-      try {
-        const response = await fetch('/api/products');
-        if (!response.ok) throw new Error('Network response was not ok');
-        const products = await response.json();
-        shuffleArray(products);
-        const limitedProducts = products.slice(0, 8);
-        displayProducts(limitedProducts, 'scrollable-grid', addToCart);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchHomeProducts();
-      // Carousel controls
-      const scrollableGrid = document.getElementById("scrollable-grid");
-      document.getElementById("arrow-left").addEventListener("click", () => {
-        scrollableGrid.scrollBy({ left: -300, behavior: "smooth" });
-      });
-      document.getElementById("arrow-right").addEventListener("click", () => {
-        scrollableGrid.scrollBy({ left: 300, behavior: "smooth" });
-      });
-    });
-
-
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const modal = document.getElementById('custom-modal');
-      const modalMessage = document.getElementById('modal-message');
-      const closeModal = document.querySelector('.close');
-      const okButton = document.getElementById('modal-ok-btn');
-
-      // Function to show the modal
-      function showModal(message) {
-        modalMessage.textContent = message;
-        modal.style.display = 'block';
-      }
-
-      // Close the modal when the close button or OK button is clicked
-      closeModal.onclick = okButton.onclick = function () {
-        modal.style.display = 'none';
-      };
-
-      // Close the modal when user clicks outside of modal
-      window.onclick = function (event) {
-        if (event.target === modal) {
-          modal.style.display = 'none';
-        }
-      };
-
-      // Example usage in API response or custom alerts
-      document.getElementById('test-alert').addEventListener('click', () => {
-        showModal('This is a custom alert message!');
-      });
-    });
-
-
-
-  </script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.querySelector('.search-input');
-    const searchButton = document.querySelector('.search-button');
-
-    // Redirect to shop with the query when the search button is clicked
-    searchButton.addEventListener('click', () => {
-      const query = searchInput.value.trim();
-      if (query) {
-        window.location.href = `/shop?search=${encodeURIComponent(query)}`;
-      }
-    });
-
-    // Redirect when "Enter" key is pressed
-    searchInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        searchButton.click(); // Trigger the search
-      }
-    });
-  });
-</script>
 
 
 

@@ -37,7 +37,6 @@ export function setupAddToCartButtons() {
   });
 }
 
-// authdisplay.js
 
 // Updated addToCart function to accept userId as a parameter
 export async function addToCart(productId) {
