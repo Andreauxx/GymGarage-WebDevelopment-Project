@@ -12,11 +12,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+    rel="stylesheet">
+
 </head>
 
 <body>
+
+
+  <div id="custom-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p id="modal-message"></p>
+      <button id="modal-ok-btn">OK</button>
+    </div>
+  </div>
 
   <!-- Top promotional/offer header -->
   <div class="promo-header">
@@ -59,12 +71,12 @@
                 <li>
                   <a href="cart">
                     <i class="fas fa-shopping-cart"></i>
-                     <span class="cart-counter">0</span>
+                    <span class="cart-counter">0</span>
 
                   </a>
                 </li>
                 <a href="login" class="login-link">
-                  <i class="fas fa-user"></i> 
+                  <i class="fas fa-user"></i>
                 </a>
               </div>
             </ul>
@@ -85,8 +97,8 @@
 
       <h1><span class="highlight">G</span>YM<span class="highlight">G</span>ARAGE</h1>
       <div class="cta-buttons">
-        <a href="#" class="btn">Join Us</a>
-        <a href="#" class="btn">Shop</a>
+        <a href="plans" class="btn">Join Us</a>
+        <a href="shop" class="btn">Shop</a>
       </div>
     </div>
   </main>
@@ -94,16 +106,16 @@
 
 
 
-  
+
 
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const slider = document.querySelector('.slider');
       const slides = document.querySelectorAll('.slider img');
       const totalSlides = slides.length;
       let currentIndex = 0;
-  
+
       function moveToNextSlide() {
         currentIndex = (currentIndex + 1) % totalSlides; // Loop back to first slide
         const nextSlide = slides[currentIndex];
@@ -112,12 +124,12 @@
           behavior: 'smooth'
         });
       }
-  
+
       // Automatically move to the next slide every 5 seconds
       setInterval(moveToNextSlide, 5000);
     });
   </script>
-  
+
 
 
 
@@ -194,11 +206,9 @@
     <div class="slider-wrapper">
       <div class="slider">
         <img id="slide-1" src="Images/HeaderImg1.png" />
-        <img id="slide-2"
-          src="https://images.unsplash.com/photo-1657586640569-4a3d4577328c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80"
+        <img id="slide-2" src="/frontend/styles/Images/slider1.png"
           alt="3D rendering of an imaginary green planet in space" />
-        <img id="slide-3"
-          src="https://images.unsplash.com/photo-1656077217715-bdaeb06bd01f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80"
+        <img id="slide-3" src="/frontend/styles/Images/slider2.png"
           alt="3D rendering of an imaginary blue planet in space" />
       </div>
       <div class="slider-nav">
@@ -214,7 +224,7 @@
       <h2>PAYDAY SALE EXCLUSIVE DEALS</h2>
       <a href="#" class="view-all">See more <i class="fa-solid fa-arrow-right"></i></a>
     </div>
-  
+
     <!-- Grid of products in a scrollable container -->
     <div id="scrollable-grid" class="product-essentials-grid">
       <!-- Each product card should be a clickable link -->
@@ -231,14 +241,10 @@
         <button class="add-to-cart-btn">Add to Cart</button>
       </a>
     </div>
-    
-    <!-- Left and Right Arrows for navigation -->
-    <div class="navigation-arrows">
-      <span class="arrow-left" id="arrow-left"><i class="fa-solid fa-arrow-left"></i></span>
-      <span  class="arrow-right" id="arrow-right"><i class="fa-solid fa-arrow-right"></i></span>
-    </div>
+
+
   </section>
-  
+
 
 
   </script>
@@ -308,7 +314,7 @@
       <div class="store-image">
         <img
           src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Johnson Fitness Store">
+          alt="GymGarage">
       </div>
     </div>
 
@@ -431,39 +437,72 @@
 
 
 
-      
-      <!-- Importing and running JavaScript modules -->
-      <script type="module">
-        import { shuffleArray, displayProducts } from '/frontend/frontend_display_logics/utils.js';
-        import { isLoggedIn, addToCart } from '/frontend/frontend_display_logics/authdisplay.js';
-      
-        async function fetchHomeProducts() {
-          try {
-            const response = await fetch('/api/products');
-            if (!response.ok) throw new Error('Network response was not ok');
-            const products = await response.json();
-            shuffleArray(products);
-            const limitedProducts = products.slice(0, 8);
-            displayProducts(limitedProducts, 'scrollable-grid', addToCart);
-          } catch (error) {
-            console.error("Error fetching products:", error);
-          }
+
+  <!-- Importing and running JavaScript modules -->
+  <script type="module">
+    import { shuffleArray, displayProducts } from '/frontend/frontend_display_logics/utils.js';
+    import { isLoggedIn, addToCart } from '/frontend/frontend_display_logics/authdisplay.js';
+
+    async function fetchHomeProducts() {
+      try {
+        const response = await fetch('/api/products');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const products = await response.json();
+        shuffleArray(products);
+        const limitedProducts = products.slice(0, 8);
+        displayProducts(limitedProducts, 'scrollable-grid', addToCart);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchHomeProducts();
+      // Carousel controls
+      const scrollableGrid = document.getElementById("scrollable-grid");
+      document.getElementById("arrow-left").addEventListener("click", () => {
+        scrollableGrid.scrollBy({ left: -300, behavior: "smooth" });
+      });
+      document.getElementById("arrow-right").addEventListener("click", () => {
+        scrollableGrid.scrollBy({ left: 300, behavior: "smooth" });
+      });
+    });
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('custom-modal');
+      const modalMessage = document.getElementById('modal-message');
+      const closeModal = document.querySelector('.close');
+      const okButton = document.getElementById('modal-ok-btn');
+
+      // Function to show the modal
+      function showModal(message) {
+        modalMessage.textContent = message;
+        modal.style.display = 'block';
+      }
+
+      // Close the modal when the close button or OK button is clicked
+      closeModal.onclick = okButton.onclick = function () {
+        modal.style.display = 'none';
+      };
+
+      // Close the modal when user clicks outside of modal
+      window.onclick = function (event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
         }
-      
-        document.addEventListener('DOMContentLoaded', () => {
-          fetchHomeProducts();
-          // Carousel controls
-          const scrollableGrid = document.getElementById("scrollable-grid");
-          document.getElementById("arrow-left").addEventListener("click", () => {
-            scrollableGrid.scrollBy({ left: -300, behavior: "smooth" });
-          });
-          document.getElementById("arrow-right").addEventListener("click", () => {
-            scrollableGrid.scrollBy({ left: 300, behavior: "smooth" });
-          });
-        });
-      </script>
-      
-  
+      };
+
+      // Example usage in API response or custom alerts
+      document.getElementById('test-alert').addEventListener('click', () => {
+        showModal('This is a custom alert message!');
+      });
+    });
+
+  </script>
+
+
 
 </body>
 

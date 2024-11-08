@@ -130,51 +130,54 @@
       </section>
     </footer>
     <script type="module">
-      document.addEventListener("DOMContentLoaded", () => {
-        const username = localStorage.getItem("username");
+      document.addEventListener("DOMContentLoaded", async () => {
+        const username = localStorage.getItem("username"); // Check if the user is logged in
+
         if (username) {
-          displayUserInfo(username);
-          loadOrderHistory(); // Load order history if logged in
+          displayUserInfo(username); // Display user information
+          await loadOrderHistory(); // Load order history if logged in
         } else {
-          setupLoginForm();
+          setupLoginForm(); // Set up login form if not logged in
         }
       });
 
       // Setup login form handler if user is not logged in
       function setupLoginForm() {
-        document
-          .querySelector("#login-form")
-          .addEventListener("submit", async (event) => {
+    document
+        .querySelector("#login-form")
+        .addEventListener("submit", async (event) => {
             event.preventDefault();
             const email = document.querySelector("#email").value;
             const password = document.querySelector("#password").value;
 
             try {
-              const response = await fetch("/api/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-              });
+                const response = await fetch("/api/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password }),
+                });
 
-              const data = await response.json();
+                const data = await response.json();
 
-              if (response.ok) {
-                alert(data.message);
+                if (response.ok) {
+                    // Store username in localStorage for session persistence
+                    localStorage.setItem("username", data.username);
+                    alert(data.message);
 
-                // Redirect based on role
-                if (data.isAdmin) {
-                  window.location.href = "/admin/"; // Admin dashboard
+                    // Redirect based on user role
+                    if (data.isAdmin) {
+                        window.location.href = "/admin/";
+                    } else {
+                        window.location.href = "/shop";
+                    }
                 } else {
-                  window.location.href = "/shop"; // Regular user landing page
+                    alert(data.message);
                 }
-              } else {
-                alert(data.message);
-              }
             } catch (error) {
-              console.error("Login failed:", error);
+                console.error("Login failed:", error);
             }
-          });
-      }
+        });
+}
 
       async function loadOrderHistory() {
         const ordersContainer = document.getElementById("orders-container");

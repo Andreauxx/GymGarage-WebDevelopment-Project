@@ -67,28 +67,37 @@ app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await getUserByEmail(email); // Ensure admin user exists in database
+    const user = await getUserByEmail(email); // Ensure user exists in the database
     if (!user) return res.status(400).json({ message: 'User not found' });
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(400).json({ message: 'Incorrect password' });
 
     req.session.userId = user.id;
-    req.session.username = user.email; // Store email for admin check
+    req.session.username = user.username; // Store username in the session
 
     // Check if the user is an admin
     if (user.email === 'admin@gmail.com') {
-      req.session.isAdmin = true; // Add admin flag
-      res.json({ message: 'Admin login successful', isAdmin: true });
+      req.session.isAdmin = true; // Set admin flag
+      res.json({ 
+        message: 'Admin login successful', 
+        isAdmin: true, 
+        username: user.username  // Send username in response
+      });
     } else {
-      req.session.isAdmin = false;
-      res.json({ message: 'User login successful', isAdmin: false });
+      req.session.isAdmin = false; // Regular user
+      res.json({ 
+        message: 'User login successful', 
+        isAdmin: false, 
+        username: user.username  // Send username in response
+      });
     }
   } catch (error) {
     console.error('Error during login:', error.message);
     res.status(500).json({ message: 'Server error during login' });
   }
 });
+
 
 
 app.get('/admin/*', (req, res) => {
