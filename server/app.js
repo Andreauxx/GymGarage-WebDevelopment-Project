@@ -56,6 +56,7 @@ function isAuthenticated(req, res, next) {
     next(); // User is authenticated
   } else {
     res.status(401).json({ message: 'Unauthorized: Please log in' });
+    
   }
 }
 
@@ -98,6 +99,9 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ message: 'Server error during login' });
   }
 });
+
+
+
 
 
 

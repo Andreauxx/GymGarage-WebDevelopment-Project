@@ -5,7 +5,9 @@ export async function isLoggedIn() {
     return response.ok; // True if response status is 200 OK
   } catch (error) {
     console.error("Error checking login status:", error);
+     res.redirect('/login'); // Redirect to login
     return false; // Assume not logged in if there's an error
+    
   }
 }
 
@@ -47,6 +49,14 @@ export async function addToCart(productId) {
       body: JSON.stringify({ productId }) // Send only productId
     });
 
+
+    if (response.status === 401) {
+      // Redirect to login if unauthorized
+      alert('You need to log in to add items to the cart.');
+      window.location.href = '/login'; // Adjust the path to your login page
+      return;
+    }
+    
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || 'Failed to add item to cart');

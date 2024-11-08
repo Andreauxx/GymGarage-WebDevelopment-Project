@@ -107,7 +107,14 @@
 
 
 
-
+  <script type="module">
+    import { setupAddToCartButtons } from '/frontend/frontend_display_logics/authdisplay.js';
+  
+    // Initialize Add to Cart buttons with login restriction
+    document.addEventListener('DOMContentLoaded', () => {
+      setupAddToCartButtons();
+    });
+  </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
