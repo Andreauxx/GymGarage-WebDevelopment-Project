@@ -1,50 +1,71 @@
-// shop.js
-import { displayProducts } from './utils.js';
-import { addToCart, updateCartCounter } from './authdisplay.js';
+import { displayProductsShop } from './utils.js';
+import { addToCart, updateCartCounter, isLoggedIn } from './authdisplay.js';
 
-let currentPage = 1;
-const productsPerPage = 3; // Number of products to display per page
+let currentPage = 1; // Initialize the currentPage variable
 
 export async function fetchShopProducts(page = 1) {
   currentPage = page;
+  const productsPerPage = 3; // Set the number of products to display per page
 
   const searchQuery = document.getElementById("search-input").value.trim();
   const category = document.getElementById("category").value;
   const price = document.getElementById("price-range").value;
   const availability = document.getElementById("availability").value;
 
-  let query = `/api/products?`;
-  if (searchQuery) query += `search=${searchQuery}&`;
-  if (category && category !== "all") query += `category=${category}&`;
-  if (price) query += `price=${price}&`;
-  if (availability && availability !== "all") query += `availability=${availability}`;
-  query += `page=${currentPage}&limit=${productsPerPage}`;
+  let query = `/api/products?page=${page}&limit=${productsPerPage}`;
+  if (searchQuery) query += `&search=${searchQuery}`;
+  if (category && category !== "all") query += `&category=${category}`;
+  if (price) query += `&price=${price}`;
+  if (availability && availability !== "all") query += `&availability=${availability}`;
 
   try {
     const response = await fetch(query);
-    console.log('API response:', response);
-
     if (!response.ok) {
-      const error = await response.json();
-      console.log('Error response:', error);
-      throw new Error(`Failed to fetch products: ${error.message}`);
+      throw new Error('Failed to fetch products. Please try again later.');
     }
 
-    const data = await response.json();
-    console.log('API data:', data);
+    const { products = [], totalProducts = 0, totalPages = 0 } = await response.json();
 
-    const { products = [], totalProducts = 0, totalPages = 0 } = data;
-    displayProducts(products, 'product-grid', addToCart);
+    if (products.length === 0) {
+      const productGrid = document.getElementById('product-grid');
+      if (productGrid) {
+        productGrid.innerHTML = '<p>No products found matching the selected filters.</p>';
+      } else {
+        console.error('Element with ID "product-grid" not found. Unable to display message.');
+      }
+      updatePagination(currentPage, totalPages);
+      return;
+    }
+
+    displayProductsShop(products, 'product-grid', addToCart);
     updatePagination(currentPage, totalPages);
-    updateCartCounter(); // Update cart count on load
   } catch (error) {
     console.error("Error fetching products for shop:", error);
-    document.getElementById('product-grid').innerHTML = '<p>Failed to load products.</p>';
+    const productGrid = document.getElementById('product-grid');
+    if (productGrid) {
+      productGrid.innerHTML = '<p>Failed to load products. Please try again later.</p>';
+    } else {
+      console.error('Element with ID "product-grid" not found. Unable to display error message.');
+    }
   }
+}
+
+export function setupFilters() {
+  document.getElementById('apply-filters').addEventListener('click', () => fetchShopProducts(1));
+
+  document.getElementById("price-range").addEventListener("input", () => {
+    const price = document.getElementById("price-range").value;
+    document.getElementById("price-label").innerText = `₱0 - ₱${price}`;
+  });
 }
 
 function updatePagination(currentPage, totalPages) {
   const paginationContainer = document.getElementById('pagination');
+  if (!paginationContainer) {
+    console.error('Element with ID "pagination" not found. Unable to update pagination.');
+    return;
+  }
+
   paginationContainer.innerHTML = '';
 
   // Generate pagination buttons
@@ -60,13 +81,13 @@ function updatePagination(currentPage, totalPages) {
   }
 }
 
-export function setupFilters() {
-  document.getElementById('apply-filters').addEventListener('click', () => fetchShopProducts(1));
+// New function to initialize the page and handle both products and cart
+async function initializeShopPage() {
+  await fetchShopProducts(); // Fetch and display products first
 
-  document.getElementById("price-range").addEventListener("input", () => {
-    const price = document.getElementById("price-range").value;
-    document.getElementById("price-label").innerText = `₱0 - ₱${price}`;
-  });
+  if (isLoggedIn()) {
+    await updateCartCounter(); // Only update cart counter if the user is logged in
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

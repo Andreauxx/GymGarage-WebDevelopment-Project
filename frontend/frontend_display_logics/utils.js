@@ -30,6 +30,7 @@ export function formatPrice(price) {
       return null;
     }
   }
+
   
   // Product display functionality
   export function displayProducts(products, containerId, onAddToCart) {
@@ -85,8 +86,60 @@ export function formatPrice(price) {
     });
   }
   
-
-
+  
+  export function displayProductsShop(products, containerId, onAddToCart) {
+    const productGrid = document.getElementById(containerId);
+    productGrid.innerHTML = '';
+  
+    if (!products.length) {
+      productGrid.innerHTML = '<p>No products available.</p>';
+      return;
+    }
+  
+    products.forEach((product, index) => {
+      const productCard = document.createElement('div');
+      productCard.classList.add('product-card');
+      productCard.setAttribute('data-product-id', product.id);
+  
+      // Determine the product price and discount display
+      const originalPrice = formatPrice(product.original_price);
+      const discountedPrice = formatPrice(product.discounted_price);
+      const priceDisplay = product.discounted_price
+        ? `<span class="original-price">${originalPrice}</span> <span class="discounted-price">${discountedPrice}</span>`
+        : `<span class="price">${originalPrice}</span>`;
+      const discount = product.discounted_price ? calculateDiscount(product.original_price, product.discounted_price) : 0;
+  
+      // Create the product card HTML
+      productCard.innerHTML = `
+        <a href="/product.html?id=${product.id}">
+          ${discount > 0 ? `<div class="save-banner">Save ${discount}%</div>` : ''}
+          <img src="${product.image_url}" alt="${product.name}">
+          <h2>${product.name}</h2>
+          <div class="price-section">${priceDisplay}</div>
+        </a>
+        <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
+      `;
+  
+      // Wrap every 3 product cards in a row
+      if (index > 0 && index % 3 === 0) {
+        const row = document.createElement('div');
+        row.classList.add('row');
+        productGrid.appendChild(row);
+      }
+  
+      productGrid.lastElementChild.appendChild(productCard);
+  
+      // Add click handler for the "Add to Cart" button
+      productCard.querySelector('.add-to-cart').addEventListener('click', () => {
+        if (isLoggedIn()) {
+          onAddToCart(product.id);
+        } else {
+          alert("Please log in to add items to the cart.");
+          window.location.href = '/login';
+        }
+      });
+    });
+  }
 
 
 // Shuffle an array in place
