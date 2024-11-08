@@ -141,33 +141,41 @@
     </div>
     <div class="essentials-grid">
       <div class="category-card">
-        <img src="https://m.media-amazon.com/images/I/71oOLhZg37L._AC_SL1500_.jpg" alt="Ellipticals">
+        <img src="https://t4.ftcdn.net/jpg/08/95/69/81/360_F_895698146_TvhNXWg8J9MxbYU12LzjEDJjjvKKLWWk.jpg" alt="Ellipticals">
         <div class="overlay">
           <h3>Ellipticals</h3>
-          <a href="#" class="shop-now-btn">Shop now</a>
+          <a href="shop" class="shop-now-btn">Shop now</a>
         </div>
       </div>
       <div class="category-card">
-        <img src="https://m.media-amazon.com/images/I/61r9ngP1UWL._AC_SL1500_.jpg" alt="Treadmills">
+        <img src="https://images.pexels.com/photos/3757938/pexels-photo-3757938.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Treadmills">
         <div class="overlay">
           <h3>Treadmills</h3>
-          <a href="#" class="shop-now-btn">Shop now</a>
+          <a href="shop" class="shop-now-btn">Shop now</a>
         </div>
       </div>
       <div class="category-card">
-        <img src="https://img.lazcdn.com/g/p/13dd4c0eedf2d5ba550c0655cf63e7d7.jpg_720x720q80.jpg" alt="Indoor Bikes">
+        <img src="https://t3.ftcdn.net/jpg/06/29/35/32/360_F_629353204_xrluCAjVEvtrqNQAPebSGfm0i4ueg4Ua.jpg" alt="Indoor Bikes">
         <div class="overlay">
           <h3>Indoor Bikes</h3>
-          <a href="#" class="shop-now-btn">Shop now</a>
+          <a href="shop" class="shop-now-btn">Shop now</a>
         </div>
       </div>
       <div class="category-card">
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6mdCXkAUZVPVH9xDPq6ZnGGfeengE_x_J5HNRj-XDY0kr8DMbNfj4Kx5f-0cEfi9olY4&usqp=CAU"
+          src="https://www.shape.com/thmb/FsbHKG8hdoB2roj0yILIRuqt44M=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/rowing-GettyImages-1213234950-2000-ede4191c66834f72a19286f230995faa.jpg"
           alt="Rowers">
         <div class="overlay">
           <h3>Rowers</h3>
-          <a href="#" class="shop-now-btn">Shop now</a>
+          <a href="shop" class="shop-now-btn">Shop now</a>
+        </div>
+      </div>
+      <div class="category-card">
+        <img src="https://images.pexels.com/photos/4046704/pexels-photo-4046704.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt="Strength Training">
+        <div class="overlay">
+          <h3>Strength Training</h3>
+          <a href="shop" class="shop-now-btn">Shop now</a>
         </div>
       </div>
       <div class="category-card">
@@ -175,15 +183,7 @@
           alt="Strength Training">
         <div class="overlay">
           <h3>Strength Training</h3>
-          <a href="#" class="shop-now-btn">Shop now</a>
-        </div>
-      </div>
-      <div class="category-card">
-        <img src="https://www.afcfitness.com/wp-content/uploads/2019/10/classic-5-strength-exercises.jpg"
-          alt="Strength Training">
-        <div class="overlay">
-          <h3>Strength Training</h3>
-          <a href="#" class="shop-now-btn">Shop now</a>
+          <a href="shop" class="shop-now-btn">Shop now</a>
         </div>
       </div>
     </div>
@@ -222,7 +222,7 @@
   <section class="product-offers">
     <div class="product-header">
       <h2>PAYDAY SALE EXCLUSIVE DEALS</h2>
-      <a href="#" class="view-all">See more <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="shop" class="view-all">See more <i class="fa-solid fa-arrow-right"></i></a>
     </div>
 
     <!-- Grid of products in a scrollable container -->
@@ -500,7 +500,31 @@
       });
     });
 
+
+
   </script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.search-input');
+    const searchButton = document.querySelector('.search-button');
+
+    // Redirect to shop with the query when the search button is clicked
+    searchButton.addEventListener('click', () => {
+      const query = searchInput.value.trim();
+      if (query) {
+        window.location.href = `/shop?search=${encodeURIComponent(query)}`;
+      }
+    });
+
+    // Redirect when "Enter" key is pressed
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        searchButton.click(); // Trigger the search
+      }
+    });
+  });
+</script>
 
 
 

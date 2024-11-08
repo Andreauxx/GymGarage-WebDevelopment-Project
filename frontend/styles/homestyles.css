@@ -551,7 +551,7 @@ nav ul li i {
 
 /* Adjust grid to create dynamic layout */
 .essentials-grid {
-  background-color: #222;
+  background-color: #000000;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
@@ -603,7 +603,7 @@ nav ul li i {
 }
 
 .category-card:hover .overlay {
-  opacity: 0.5;
+  opacity: 1;
 }
 
 .overlay h3 {
@@ -621,7 +621,7 @@ nav ul li i {
 }
 
 .shop-now-btn:hover {
-  background-color: #d10000;
+  background-color: #ff0000;
 }
 
 /* Add responsiveness */

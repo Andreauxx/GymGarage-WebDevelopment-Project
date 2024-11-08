@@ -126,17 +126,23 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease;
-}
+  }
+  
+  .metric h3 {
+    font-size: 28px;
+    color: var(--primary-color);
+  }
+  
+  .styled-table tbody td span.status.completed {
+    background-color: #5cb85c;
+  }
+  
 
 .metric:hover {
     transform: scale(1.05);
 }
 
-.metric h3 {
-    font-size: 28px;
-    color: var(--primary-color);
-    margin-bottom: 5px;
-}
+
 
 .metric p {
     color: var(--secondary-color);
@@ -316,6 +322,22 @@
 .action-btn:hover.view {
     background-color: #4cae4c;
 }
+
+.action-btn.complete {
+    background-color: #28a745; /* Green */
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.action-btn.complete:hover {
+    background-color: #218838; /* Darker green */
+}
+
 
 /* Status Labels */
 .status {

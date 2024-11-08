@@ -82,6 +82,7 @@ app.post('/api/login', async (req, res) => {
       res.json({ 
         message: 'Admin login successful', 
         isAdmin: true, 
+        redirectUrl: '/admin/dashboard',
         username: user.username  // Send username in response
       });
     } else {
@@ -100,9 +101,9 @@ app.post('/api/login', async (req, res) => {
 
 
 
-app.get('/admin/*', (req, res) => {
+app.get('/admin/', (req, res) => {
   if (req.session.userId && req.session.isAdmin) {
-    res.sendFile(path.join(__dirname, '../frontend/admin_settings/admin.html'));
+    res.redirect('/admin/dashboard'); // Redirect to dashboard
   } else {
     res.status(403).send('Forbidden: Admins only');
   }
@@ -111,6 +112,8 @@ app.get('/admin/*', (req, res) => {
 
 
 app.use('/admin_settings', express.static(path.join(__dirname, '../frontend/admin_settings')));
+
+
 app.get('/admin/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/admin_settings/admin.html'));
 });
@@ -483,23 +486,122 @@ app.get('/api/admin/orders/:id', async (req, res) => {
 
 
 
+// Complete Order Route
 app.post('/api/admin/orders/:id/complete', async (req, res) => {
   const orderId = req.params.id;
 
   try {
-      const { error } = await supabase
+      // Fetch the order details
+      const { data: order, error: orderError } = await supabase
+          .from('orders')
+          .select('order_items(product_id, quantity), status')
+          .eq('id', orderId)
+          .single();
+
+      if (orderError || !order) {
+          throw new Error('Order not found.');
+      }
+
+      if (order.status === 'Completed') {
+          return res.status(400).json({ message: 'Order is already completed.' });
+      }
+
+      // Update stock for each product in the order
+      for (const item of order.order_items) {
+          // Fetch the current stock for the product
+          const { data: product, error: productError } = await supabase
+              .from('products')
+              .select('stock')
+              .eq('id', item.product_id)
+              .single();
+
+          if (productError || !product) {
+              throw new Error(`Failed to fetch stock for product ${item.product_id}`);
+          }
+
+          const newStock = product.stock - item.quantity;
+
+          if (newStock < 0) {
+              throw new Error(`Insufficient stock for product ${item.product_id}`);
+          }
+
+          const { error: stockUpdateError } = await supabase
+              .from('products')
+              .update({ stock: newStock })
+              .eq('id', item.product_id);
+
+          if (stockUpdateError) {
+              throw new Error(`Failed to update stock for product ${item.product_id}`);
+          }
+      }
+
+      // Update order status to 'Completed'
+      const { error: statusError } = await supabase
           .from('orders')
           .update({ status: 'Completed' })
           .eq('id', orderId);
 
-      if (error) throw error;
+      if (statusError) {
+          throw new Error('Failed to update order status.');
+      }
 
       res.status(200).json({ message: 'Order marked as complete.' });
   } catch (error) {
       console.error('Error completing order:', error.message);
-      res.status(500).json({ message: 'Error completing order.' });
+      res.status(500).json({ message: error.message });
   }
 });
+
+
+
+
+
+// Get Dashboard Metrics
+app.get('/api/admin/metrics', async (req, res) => {
+  try {
+    // Total income from completed orders
+    const { data: incomeData, error: incomeError } = await supabase
+      .from('orders')
+      .select('total_price')
+      .eq('status', 'Completed');
+
+    if (incomeError) throw incomeError;
+
+    const totalIncome = incomeData.reduce((sum, order) => sum + order.total_price, 0);
+
+    // Fetch recent 5 orders
+    const { data: recentOrders, error: ordersError } = await supabase
+      .from('orders')
+      .select('id, total_price, status, created_at, user:users(f_name, l_name)')
+      .order('created_at', { ascending: false })
+      .limit(5);
+
+    if (ordersError) throw ordersError;
+
+    // Fetch top 5 users
+    const { data: topUsers, error: usersError } = await supabase
+      .from('users')
+      .select('id, f_name, l_name, email')
+      .limit(5);
+
+    if (usersError) throw usersError;
+
+    res.json({
+      totalIncome,
+      recentOrders,
+      topUsers
+    });
+  } catch (error) {
+    console.error('Error fetching metrics:', error.message);
+    res.status(500).json({ message: 'Failed to fetch metrics' });
+  }
+});
+
+
+
+
+
+
 
 
 
