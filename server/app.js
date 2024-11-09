@@ -116,8 +116,42 @@ app.post('/api/logout', (req, res) => {
 
 
 
+app.post('/api/signup', async (req, res) => {
+  const { f_name, l_name, username, address, number, email, password, role = 'user' } = req.body;
 
+  if (!f_name || !l_name || !username || !address || !number || !email || !password) {
+    return res.status(400).json({ message: 'All fields are required.' });
+  }
 
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert user into the database
+    const { data, error } = await supabase
+      .from('users')
+      .insert({
+        f_name,
+        l_name,
+        username,
+        address,
+        number, // Ensure this matches your schema in the `users` table
+        email,
+        password: hashedPassword,
+        role, // Assign default 'user' if role is not provided in request
+      });
+
+    if (error) {
+      console.error('Database Error:', error.message); // Log error details
+      return res.status(500).json({ message: 'Database error.', details: error.message });
+    }
+
+    res.status(201).json({ message: 'Signup successful', token: 'fake-jwt-token' });
+  } catch (error) {
+    console.error('Server Error:', error.message);
+    res.status(500).json({ message: 'Server error during signup.' });
+  }
+});
+  
 
 
 
